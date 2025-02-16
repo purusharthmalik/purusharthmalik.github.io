@@ -72,17 +72,6 @@ layout: default
 
 <div class="container">
 
-  <img src="/assets/profile.jpg" alt="Your Name - Profile Picture" class="profile-pic">
-
-  <div class="about-me-text">
-    <p>
-      Hi, I'm [Your Name]! I'm [Your Title/Affiliation, e.g., "a Machine Learning Researcher at [Institution]", "a Software Engineer at [Company]", "a PhD student at [University]"]. My research interests include [List your interests, e.g., "deep learning, reinforcement learning, natural language processing"].  I enjoy [Your Hobbies/Interests, e.g., "hiking, photography, playing the piano"].
-    </p>
-    <p>
-      [Add another paragraph with more details about your background, goals, or projects.  This is where you expand on your "story".]
-    </p>
-  </div>
-
   <div class="contact-info">
 
      <a href="mailto:your.email@example.com" class="contact-link">Email</a>
