@@ -8,7 +8,7 @@ layout: default
     font-family: sans-serif;
     background-color: #fff;
     color: #333;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    transition: background-color 0.3s, color 0.3s;
   }
 
   .container {
@@ -32,35 +32,50 @@ layout: default
     padding: 0;
   }
 
-  .post-list-item {
-    margin-bottom: 20px; /* More spacing between boxes */
-    padding: 15px; /* Padding inside the box */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 5px; /* Rounded corners */
+ .post-list-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #333; /* Darker border in light mode */
+    border-radius: 5px;
     display: flex;
-    background-color: #f9f9f9; /* Slightly off-white background */
-    transition: background-color 0.3s; /* Smooth transition for hover */
+    flex-direction: column; /* Stack elements vertically */
+    background-color: #333;
+    transition: background-color 0.3s;
+    color: #fff; /*White Text*/
   }
+
   .post-list-item:hover {
-      background-color: #f0f0f0;
-  }
+      background-color: #444; /* Slightly lighter on hover */
+    }
 
-  .post-date {
-    color: #666;
-    font-size: 0.9em;
-    margin-bottom: 5px;
-    min-width: 100px;
-  }
-
-  .post-link {
-    text-decoration: none;
-    color: #0366d6;
+.post-title {
+    font-size: 1.2em; /* Larger title */
     font-weight: bold;
-    margin-left: 15px;
+    margin-bottom: 5px;
+    color: #fff; /* White title text */
+}
+  .post-link{
+    text-decoration: none;
+    color: inherit;
+  }
+  .post-link:hover{
+    text-decoration: underline;
+    color: inherit;
   }
 
-  .post-link:hover {
-    text-decoration: underline;
+.post-excerpt {
+    margin-bottom: 10px;
+    color: #eee; /* Light grey for excerpt text */
+    line-height: 1.4; /* Improve readability */
+}
+
+ .post-meta {
+    font-size: 0.8em;
+    color: #999; /* Light grey for meta info */
+}
+  .post-date{
+    color: inherit;
+    min-width: fit-content;
   }
 
   .about-me-text,
@@ -94,24 +109,36 @@ layout: default
   }
 
   /* Dark Mode Styles */
-  .dark-mode {
-    background-color: #121212; /* Dark background */
-    color: #eee; /* Light text */
-  }
+ .dark-mode {
+    background-color: #121212;
+    color: #eee;
+}
+.dark-mode .post-list-item {
+    background-color: #333; /* Consistent dark background */
+    border-color: #333; /* Consistent dark border */
+    color: #fff; /* White text in dark mode */
+}
 
-  .dark-mode .post-list-item {
-    background-color: #242424; /* Darker box background */
-    border-color: #444; /* Darker border */
-  }
+.dark-mode .post-title {
+    color: #fff; /* Ensure title is white in dark mode */
+}
+
+.dark-mode .post-excerpt {
+    color: #eee; /* Consistent excerpt color */
+}
+
+.dark-mode .post-meta {
+    color: #999; /* Consistent meta color */
+}
   .dark-mode .post-list-item:hover{
-    background-color: #303030;
+    background-color: #444;
   }
 
   .dark-mode .post-link {
-    color: #4a90e2; /* Lighter blue for links */
+    color: inherit; /* Inherit from parent (white) */
   }
   .dark-mode .post-date{
-    color: #999;
+    color: inherit;
   }
     .dark-mode .archive-link a{
         color: #4a90e2;
@@ -119,16 +146,16 @@ layout: default
 
   /* Dark Mode Toggle Button */
   #darkModeToggle {
-    position: fixed; /* Fixed position */
-    top: 20px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
+    position: fixed;
+    top: 20px;
+    right: 20px;
     background-color: #555;
     color: white;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 1000; /* Ensure it's on top */
+    z-index: 1000;
   }
   #darkModeToggle:hover {
     background-color:#333
@@ -151,17 +178,16 @@ layout: default
   Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. 
   Not anymore! Feel free to hit me up to discuss anything regarding my work.
 
-  <div class="contact-info">
-     <a href="mailto:purusharth19malik@gmail.com" class="contact-link"><img src="https://www.flaticon.com/free-icons/email" alt="Email"></a>
-     <a href="https://github.com/purusharthmalik" class="contact-link"><img src="https://www.flaticon.com/free-icons/github" alt="GitHub"></a>
-     <a href="https://www.linkedin.com/in/purusharth-malik-33a31616b/" class="contact-link"><img src="https://www.flaticon.com/free-icons/linkedin" alt="LinkedIn"></a>
-  </div>
-
   <ul class="post-list">
     {% for post in site.posts %}
       <li class="post-list-item">
-        <span class="post-date">{{ post.date | date_to_string }}</span>
-        <a href="{{ post.url }}" class="post-link">{{ post.title }}</a>
+        <a href="{{ post.url }}" class = "post-link">
+            <div class="post-title">{{ post.title }}</div>
+        </a>
+        <div class="post-excerpt">{{ post.excerpt }}</div>
+        <div class="post-meta">
+           <span class = "post-date"> Date: {{ post.date | date: "%B %d, %Y" }} </span> | Estimated Reading Time: 37 min | Author: Purusharth Malik
+        </div>
       </li>
     {% endfor %}
   </ul>
