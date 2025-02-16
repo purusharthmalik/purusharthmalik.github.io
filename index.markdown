@@ -3,105 +3,102 @@ layout: default
 ---
 
 <style>
-  /* Base styles (Light Mode) */
+  /* Global Styles */
   body {
-    font-family: sans-serif;
-    background-color: #fff;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+    padding: 0;
   }
 
   .container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 900px;
+    margin: 40px auto;
     padding: 20px;
+    text-align: center;
   }
 
+  /* Profile Section */
   .profile-pic {
-    float: right;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    margin-left: 20px;
     margin-bottom: 20px;
     object-fit: cover;
   }
 
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  /* Blog Post List */
   .post-list {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
   }
 
- .post-list-item {
+  .post-list-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #333; /* Darker border in light mode */
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    background-color: #333;
-    transition: background-color 0.3s;
-    color: #fff; /*White Text*/
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
   }
 
   .post-list-item:hover {
-      background-color: #444; /* Slightly lighter on hover */
-    }
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
 
-.post-title {
-    font-size: 1.2em; /* Larger title */
+  .post-title {
+    font-size: 1.4rem;
     font-weight: bold;
-    margin-bottom: 5px;
-    color: #fff; /* White title text */
-}
-  .post-link{
-    text-decoration: none;
-    color: inherit;
-  }
-  .post-link:hover{
-    text-decoration: underline;
-    color: inherit;
-  }
-
-.post-excerpt {
     margin-bottom: 10px;
-    color: #eee; /* Light grey for excerpt text */
-    line-height: 1.4; /* Improve readability */
-}
-
- .post-meta {
-    font-size: 0.8em;
-    color: #999; /* Light grey for meta info */
-}
-  .post-date{
-    color: inherit;
-    min-width: fit-content;
+    color: #222;
   }
 
-  .about-me-text,
-  .contact-info {
-    margin-bottom: 20px;
-  }
-
-  .contact-link {
-    margin-right: 10px;
+  .post-link {
     text-decoration: none;
-    color: #0366d6;
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
+    color: inherit;
   }
 
-  .contact-link img {
-    width: 100%;
-    height: 100%;
-    vertical-align: middle;
+  .post-link:hover {
+    text-decoration: underline;
+  }
+
+  .post-excerpt {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .post-meta {
+    font-size: 0.9rem;
+    color: #888;
+  }
+
+  .archive-link {
+    margin-top: 20px;
   }
 
   .archive-link a {
+    font-size: 1rem;
     text-decoration: none;
     color: #0366d6;
+    font-weight: bold;
   }
 
   .archive-link a:hover {
@@ -109,47 +106,38 @@ layout: default
   }
 
   /* Dark Mode Styles */
- .dark-mode {
+  .dark-mode {
     background-color: #121212;
     color: #eee;
-}
-.dark-mode .post-list-item {
-    background-color: #333; /* Consistent dark background */
-    border-color: #333; /* Consistent dark border */
-    color: #fff; /* White text in dark mode */
-}
-
-.dark-mode .post-title {
-    color: #fff; /* Ensure title is white in dark mode */
-}
-
-.dark-mode .post-excerpt {
-    color: #eee; /* Consistent excerpt color */
-}
-
-.dark-mode .post-meta {
-    color: #999; /* Consistent meta color */
-}
-  .dark-mode .post-list-item:hover{
-    background-color: #444;
   }
 
-  .dark-mode .post-link {
-    color: inherit; /* Inherit from parent (white) */
+  .dark-mode .post-list-item {
+    background-color: #1e1e1e;
+    color: #ddd;
   }
-  .dark-mode .post-date{
-    color: inherit;
+
+  .dark-mode .post-title {
+    color: #fff;
   }
-    .dark-mode .archive-link a{
-        color: #4a90e2;
-    }
+
+  .dark-mode .post-excerpt {
+    color: #bbb;
+  }
+
+  .dark-mode .post-meta {
+    color: #aaa;
+  }
+
+  .dark-mode .archive-link a {
+    color: #4a90e2;
+  }
 
   /* Dark Mode Toggle Button */
   #darkModeToggle {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #555;
+    background-color: #444;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -157,44 +145,45 @@ layout: default
     cursor: pointer;
     z-index: 1000;
   }
+
   #darkModeToggle:hover {
-    background-color:#333
+    background-color: #222;
   }
-  .dark-mode #darkModeToggle{
+
+  .dark-mode #darkModeToggle {
     background-color: #ddd;
     color: black;
   }
-  .dark-mode #darkModeToggle:hover{
-    background-color: #eee;
+
+  .dark-mode #darkModeToggle:hover {
+    background-color: #bbb;
   }
 </style>
 
 <button id="darkModeToggle">Toggle Dark Mode</button>
 
 <div class="container">
-
-  <h1>🫶Welcome to my technical rants!</h1>
-
-  Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. 
-  Not anymore! Feel free to hit me up to discuss anything regarding my work.
+  <img src="/path/to/profile-pic.jpg" alt="Profile Picture" class="profile-pic">
+  <h1>🫶 Welcome to my technical rants!</h1>
+  <p>Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. Not anymore! Feel free to hit me up to discuss anything regarding my work.</p>
 
   <ul class="post-list">
     {% for post in site.posts %}
       <li class="post-list-item">
-        <a href="{{ post.url }}" class = "post-link">
-            <div class="post-title">{{ post.title }}</div>
+        <a href="{{ post.url }}" class="post-link">
+          <div class="post-title">{{ post.title }}</div>
         </a>
         <div class="post-excerpt">{{ post.excerpt }}</div>
         <div class="post-meta">
-           <span class = "post-date"> Date: {{ post.date | date: "%B %d, %Y" }} </span> | Estimated Reading Time: 37 min | Author: Purusharth Malik
+          <span class="post-date">📅 {{ post.date | date: "%B %d, %Y" }}</span> | ⏳ {{ post.timetoread }} min read | ✍️ Purusharth Malik
         </div>
       </li>
     {% endfor %}
   </ul>
-  <div class = "archive-link">
+  
+  <div class="archive-link">
     <a href="/archive.html">All posts...</a>
   </div>
-
 </div>
 
 <script>
@@ -203,18 +192,12 @@ layout: default
   const body = document.body;
 
   // Check for saved preference
-  const currentMode = localStorage.getItem('darkMode');
-  if (currentMode === 'enabled') {
+  if (localStorage.getItem('darkMode') === 'enabled') {
     body.classList.add('dark-mode');
   }
 
   darkModeToggle.addEventListener('click', () => {
-    if (body.classList.contains('dark-mode')) {
-      body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'disabled');
-    } else {
-      body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'enabled');
-    }
+    body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
   });
 </script>
