@@ -72,16 +72,17 @@ layout: default
 
 <div class="container">
 
+  <h1>🫶Welcome to my technical rants!</h1>
+
+  Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. Not anymore! Feel free to hit me up to discuss anything regarding my work.
+
   <div class="contact-info">
 
-     <a href="mailto:your.email@example.com" class="contact-link">Email</a>
-     <a href="https://twitter.com/yourtwitter" class="contact-link">Twitter</a>
-     <a href="https://github.com/yourgithub" class="contact-link">GitHub</a>
-     <a href="https://linkedin.com/in/yourlinkedin" class="contact-link">LinkedIn</a>
+     <a href="mailto:purusharth19malik@gmail.com" class="contact-link">Email</a>
+     <a href="https://github.com/purusharthmalik" class="contact-link">GitHub</a>
+     <a href="https://www.linkedin.com/in/purusharth-malik-33a31616b/" class="contact-link">LinkedIn</a>
 
   </div>
-
-  <h2>Posts</h2>
 
   <ul class="post-list">
     {% for post in site.posts %}
