@@ -20,25 +20,40 @@ layout: default
     text-align: center;
   }
 
-  /* Profile Section */
-  .profile-pic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    object-fit: cover;
+  /* Title and Dark Mode Toggle */
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
   }
 
   h1 {
     font-size: 2rem;
     font-weight: 700;
     color: #222;
+    margin: 0;
   }
 
-  p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
+  /* Dark Mode Toggle Button */
+  #darkModeToggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  #darkModeToggle .sun {
+    display: none;
+  }
+
+  .dark-mode #darkModeToggle .sun {
+    display: inline;
+  }
+
+  .dark-mode #darkModeToggle .moon {
+    display: none;
   }
 
   /* Blog Post List */
@@ -105,7 +120,6 @@ layout: default
     text-decoration: underline;
   }
 
-  /* Dark Mode Styles */
   .dark-mode {
     background-color: #121212;
     color: #eee;
@@ -131,40 +145,17 @@ layout: default
   .dark-mode .archive-link a {
     color: #4a90e2;
   }
-
-  /* Dark Mode Toggle Button */
-  #darkModeToggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
-  }
-
-  #darkModeToggle:hover {
-    background-color: #222;
-  }
-
-  .dark-mode #darkModeToggle {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .dark-mode #darkModeToggle:hover {
-    background-color: #bbb;
-  }
 </style>
 
-<button id="darkModeToggle">Toggle Dark Mode</button>
-
 <div class="container">
-  <img src="/path/to/profile-pic.jpg" alt="Profile Picture" class="profile-pic">
-  <h1>🫶 Welcome to my technical rants!</h1>
+  <div class="title-container">
+    <h1>🫶 Puru-Logs</h1>
+    <button id="darkModeToggle">
+      <span class="moon">🌙</span>
+      <span class="sun">☀️</span>
+    </button>
+  </div>
+  
   <p>Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. Not anymore! Feel free to hit me up to discuss anything regarding my work.</p>
 
   <ul class="post-list">
@@ -191,7 +182,6 @@ layout: default
   const darkModeToggle = document.getElementById('darkModeToggle');
   const body = document.body;
 
-  // Check for saved preference
   if (localStorage.getItem('darkMode') === 'enabled') {
     body.classList.add('dark-mode');
   }
