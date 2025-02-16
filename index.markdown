@@ -20,19 +20,36 @@ layout: default
     text-align: center;
   }
 
-  /* Title and Dark Mode Toggle */
-  .title-container {
+  /* Navigation Bar */
+  .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    background-color: #222;
+    padding: 15px 30px;
+    border-radius: 10px;
   }
 
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #222;
+  .navbar h1 {
+    color: #fff;
+    font-size: 1.8rem;
     margin: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-links a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover {
+    color: #fff;
   }
 
   /* Dark Mode Toggle Button */
@@ -41,6 +58,7 @@ layout: default
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    color: #fff;
     transition: color 0.3s;
   }
 
@@ -54,6 +72,14 @@ layout: default
 
   .dark-mode #darkModeToggle .moon {
     display: none;
+  }
+
+  .dark-mode .navbar {
+    background-color: #121212;
+  }
+
+  .dark-mode .nav-links a {
+    color: #ddd;
   }
 
   /* Blog Post List */
@@ -147,15 +173,19 @@ layout: default
   }
 </style>
 
-<div class="container">
-  <div class="title-container">
-    <h1>🫶 Puru-Logs</h1>
+<div class="navbar">
+  <h1>🫶 Puru-Logs</h1>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="/archive.html">Archive</a>
     <button id="darkModeToggle">
       <span class="moon">🌙</span>
       <span class="sun">☀️</span>
     </button>
   </div>
-  
+</div>
+
+<div class="container">
   <p>Hi, this is Purusharth. For a very long time, I kept making notes and forgetting about them. Not anymore! Feel free to hit me up to discuss anything regarding my work.</p>
 
   <ul class="post-list">
@@ -171,10 +201,6 @@ layout: default
       </li>
     {% endfor %}
   </ul>
-  
-  <div class="archive-link">
-    <a href="/archive.html">All posts...</a>
-  </div>
 </div>
 
 <script>
