@@ -28,7 +28,7 @@ linkedin_username: https://www.linkedin.com/in/purusharth-malik-33a31616b/
 github_username:  purusharthmalik
 
 # Build settings
-# markdown: kramdown
+markdown: kramdown
 # include: 
 #   - assets
 theme: minima
