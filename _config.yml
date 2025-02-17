@@ -13,6 +13,9 @@ theme: minima
 markdown: kramdown  # Enables Markdown rendering using Kramdown
 highlighter: rouge  # Optional: Enables syntax highlighting for code blocks
 
+include:
+  - assets
+
 plugins:
   - jekyll-feed
   - jekyll-paginate  # Optional: Adds pagination support
