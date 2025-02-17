@@ -42,6 +42,7 @@ layout: default
     font-size: 1.5rem;
     cursor: pointer;
     transition: color 0.3s;
+    color: white;
   }
 
   #darkModeToggle .sun {
