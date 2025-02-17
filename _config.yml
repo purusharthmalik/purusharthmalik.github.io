@@ -29,10 +29,9 @@ github_username:  purusharthmalik
 
 # Build settings
 markdown: kramdown
+mathjax: true
 include: 
   - assets
-kramdown:
-  math_engine: mathjax
 theme: minima
 plugins:
   - jekyll-feed
