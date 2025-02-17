@@ -29,8 +29,8 @@ github_username:  purusharthmalik
 
 # Build settings
 # markdown: kramdown
-include: 
-  - assets
+# include: 
+#   - assets
 theme: minima
 plugins:
   - jekyll-feed
