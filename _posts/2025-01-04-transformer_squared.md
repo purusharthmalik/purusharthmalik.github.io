@@ -6,6 +6,7 @@ categories: LLM
 timetoread: 12
 ---
 The idea behind sakana.ai’s latest research paper, which provides a general framework for a new type of transformer architecture, is that of adaptation. Much like your toxic partner who turns into a sweetheart as soon as external observers are available, LLMs need to adapt to a wide variety of tasks to be suitable for domain-specific usage.
+
 <p>
     <img src="{{ site.baseurl }}/assets/chameleon.png">
     <em>Photo by Cécile Brasseur on Unsplash</em>
