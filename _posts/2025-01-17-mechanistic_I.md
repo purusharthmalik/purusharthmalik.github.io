@@ -75,7 +75,8 @@ Similarly, other circuits exist that are used for different purposes.
 In MI, one of the go-to practices to study the effect of one component is to intervene, i.e., we stop the flow of the network and alter some activation values (by either setting them to zero—pruning or by adding some noise to the activations — patching).
 
 This forms the basis of many of the techniques in MI. We will not discuss them here, but here’s the link for an article that discusses these methods in some detail,
-<a src=https://ai.gopubby.com/4-ideas-that-are-changing-the-game-for-llm-research-aec86098e429?source=post_page-----9a94cd1d1784--------------------------------------->
+
+<a href=https://ai.gopubby.com/4-ideas-that-are-changing-the-game-for-llm-research-aec86098e429?source=post_page-----9a94cd1d1784--------------------------------------->4 ideas that are changing the game for LLM research - Nikhil Anand</a>
 
 ### Universality
 
