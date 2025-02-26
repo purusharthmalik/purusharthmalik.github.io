@@ -148,8 +148,8 @@ layout: default
     <div class="archive-link">
         <a href="/archive.html">All posts...</a>
     </div>
-    <div style="margin-top: 20px; text-align: center;">
+    <!-- <div style="margin-top: 20px; text-align: center;">
         <p>Page Views:</p>
         <img src="https://visitor-badge.glitch.me/badge?page_id=purusharthmalik.github.io" alt="Visitor Count">
-    </div>
+    </div> -->
 </div>
