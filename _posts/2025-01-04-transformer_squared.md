@@ -24,9 +24,7 @@ However, traditional LLM post-training has several downsides,
 
 How can we achieve such intelligent models?
 
-1. Improving existing LLMs — We are all familiar with the scaling laws and emergent capabilities of LLMs, so it should not come as a surprise that if we keep creating bigger models, they will obviously be better at performing a wide variety of tasks with decent outputs across multiple domains.
-
-However, this is not a very scalable idea and needs immense computing power.
+1. Improving existing LLMs — We are all familiar with the scaling laws and emergent capabilities of LLMs, so it should not come as a surprise that if we keep creating bigger models, they will obviously be better at performing a wide variety of tasks with decent outputs across multiple domains. However, this is not a very scalable idea and needs immense computing power.
 
 2. Using Mixture-Of-Experts — MoE is the idea of dynamically routing the inputs to “expert” modules that specialize in a specific domain. The authors suggest that Transformer² can be loosely categorized as an MoE model but differs in significant ways.
 
@@ -48,10 +46,10 @@ Before jumping into the technique used by the authors of the paper, let us take 
 
 ### Fine-tuning with Singular Value Decomposition (SVD)
 <p>
-    <img src="{{ site.baseurl }}/assets/svd.png">
-    <em>
-        Geometric Interpretation of SVD (Image by Author)
-    </em>
+    <center>
+        <img src="{{ site.baseurl }}/assets/svd.png">
+    </center>
+    <em>Geometric Interpretation of SVD (Image by Author)</em>
 </p>
 
 In SVD, both U and V rotate the vector space. Our subject of interest here is the Σ matrix.
