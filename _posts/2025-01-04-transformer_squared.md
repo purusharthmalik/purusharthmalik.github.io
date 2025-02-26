@@ -3,7 +3,7 @@ layout: post
 title:  "Transformer²: The Death of LoRA?"
 date:   2025-01-19 18:19:56 +0530
 categories: LLM
-timetoread: 12
+timetoread: 10
 ---
 The idea behind sakana.ai’s latest research paper, which provides a general framework for a new type of transformer architecture, is that of adaptation. Much like your toxic partner who turns into a sweetheart as soon as external observers are available, LLMs need to adapt to a wide variety of tasks to be suitable for domain-specific usage.
 
@@ -199,7 +199,7 @@ The paper delivers promising results but take it with a grain of salt and decide
 
 1 — Transformer² Paper — https://arxiv.org/pdf/2501.06252
 
-2 — https://sakana.ai/transformer-squared/
+2 — Sakana Blog - https://sakana.ai/transformer-squared/
 
 3 — Self-MoE Paper: https://arxiv.org/pdf/2406.12034
 
