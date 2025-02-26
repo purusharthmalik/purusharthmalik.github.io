@@ -120,41 +120,16 @@ layout: default
   .archive-link a:hover {
     text-decoration: underline;
   }
-
-  .dark-mode {
-    background-color: #121212;
-    color: #eee;
-  }
-
-  .dark-mode .post-list-item {
-    background-color: #1e1e1e;
-    color: #ddd;
-  }
-
-  .dark-mode .post-title {
-    color: #fff;
-  }
-
-  .dark-mode .post-excerpt {
-    color: #bbb;
-  }
-
-  .dark-mode .post-meta {
-    color: #aaa;
-  }
-
-  .dark-mode .archive-link a {
-    color: #4a90e2;
+  .visitor-counter {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #888;
   }
 </style>
 
 <div class="container">
   <div class="title-container">
-    <h1>🫶 Welcome to my technical rants!</h1>
-    <button id="darkModeToggle">
-      <span class="moon">🌙</span>
-      <span class="sun">☀️</span>
-    </button>
+    <h1>🫶 Welcome to my technical rants! ☀️</h1>
   </div>
   
   <p>
@@ -179,19 +154,34 @@ layout: default
   <div class="archive-link">
     <a href="/archive.html">All posts...</a>
   </div>
+    <div class="visitor-counter">
+      Visitors: <span id="visitor-count">Loading...</span>
+    </div>
 </div>
 
 <script>
-  // Dark Mode Toggle Logic
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  const body = document.body;
+  // Visitor Counter (using countapi.xyz)
+  document.addEventListener('DOMContentLoaded', function() {
+      const countapiURL = 'https://api.countapi.xyz/hit/purusharthmalik.github.io/visits?callback=cb';
 
-  if (localStorage.getItem('darkMode') === 'enabled') {
-    body.classList.add('dark-mode');
-  }
-
-  darkModeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+    fetch(countapiURL)
+      .then(response => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json();
+      })
+      .then(data => {
+        if (data && data.value !== undefined) {
+          document.getElementById('visitor-count').textContent = data.value;
+        } else {
+          document.getElementById('visitor-count').textContent = 'Error';
+           console.error("Unexpected data structure:", data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching visitor count:', error);
+        document.getElementById('visitor-count').textContent = 'Error';
+      });
   });
 </script>

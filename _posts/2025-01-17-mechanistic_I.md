@@ -2,7 +2,7 @@
 layout: post
 title:  "Stop treating your LLM like a black box, you MORON!"
 date:   2025-01-17 18:19:56 +0530
-categories: Mechanistic Interpretability
+categories: Mechanistic-Interpretability
 timetoread: 8
 ---
 AI will soon be able to write its own code and that is inevitable. Of course, you can say — “Oh, we should build AI with caution.” but will Big Zuck listen to you? I don’t think so.
