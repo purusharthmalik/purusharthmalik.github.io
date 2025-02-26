@@ -14,17 +14,17 @@ The idea behind sakana.ai’s latest research paper, which provides a general fr
 
 However, traditional LLM post-training has several downsides,
 
-    - Fine-tuning is highly resource intensive — Even with modern techniques like the usage of mixed precision, quantization, and PEFT, the process of fine-tuning an LLM is still expensive and demands both computation and storage.
-    - Overfitting Issues — More often than not, the fine-tuned model starts generating repetitive outputs and is doomed for catastrophic forgetting.
-    - Task Interference — Conflicting gradients usually result in the model performing better at one particular task while suffering a degradation in the performance of another task.
+- Fine-tuning is highly resource intensive — Even with modern techniques like the usage of mixed precision, quantization, and PEFT, the process of fine-tuning an LLM is still expensive and demands both computation and storage.
+- Overfitting Issues — More often than not, the fine-tuned model starts generating repetitive outputs and is doomed for catastrophic forgetting.
+- Task Interference — Conflicting gradients usually result in the model performing better at one particular task while suffering a degradation in the performance of another task.
 
 ## Self-Adaptive LLMs
 
-    We define self-adaptive LLMs as a class of models that have the ability to regulate its behaviour with respect to dynamic changes in the environment without any external interference.
+**We define self-adaptive LLMs as a class of models that have the ability to regulate its behaviour with respect to dynamic changes in the environment without any external interference.**
 
-1. How can we achieve such intelligent models?
+How can we achieve such intelligent models?
 
-    Improving existing LLMs — We are all familiar with the scaling laws and emergent capabilities of LLMs, so it should not come as a surprise that if we keep creating bigger models, they will obviously be better at performing a wide variety of tasks with decent outputs across multiple domains.
+1. Improving existing LLMs — We are all familiar with the scaling laws and emergent capabilities of LLMs, so it should not come as a surprise that if we keep creating bigger models, they will obviously be better at performing a wide variety of tasks with decent outputs across multiple domains.
 
 However, this is not a very scalable idea and needs immense computing power.
 
@@ -34,11 +34,11 @@ Last year, a paper titled “Self-MoE: Towards Compositional Large Language Mode
 
 Benefits of Self-Adaptive LLMs,
 
-    - Dynamic modification of the model for different tasks without the need for fine-tuning again and again.
-    - Continual Learning — Over time, the model can accumulate information instead of being trained with static information.
-    - Eliminating Catastrophic Forgetting — New information can be added to the model without triggering any form of catastrophic forgetting, where the model forgets how to do a previous task after learning a new task.
+- Dynamic modification of the model for different tasks without the need for fine-tuning again and again.
+- Continual Learning — Over time, the model can accumulate information instead of being trained with static information.
+- Eliminating Catastrophic Forgetting — New information can be added to the model without triggering any form of catastrophic forgetting, where the model forgets how to do a previous task after learning a new task.
 
-    The authors also highlight the fact that self-adaptive LLMs mimic the neuroscientific principle of “activating specific areas of the brain depending upon the task at hand”.
+**The authors also highlight the fact that self-adaptive LLMs mimic the neuroscientific principle of “activating specific areas of the brain depending upon the task at hand”.**
 
 While MoEs are a great way to create compositional systems, training a separate “expert” module for each individual task is still a resource-intensive approach. To tackle this issue, the paper introduces a novel technique for fine-tuning — Singular Value Fine-Tuning (SVF).
 
@@ -49,12 +49,14 @@ Before jumping into the technique used by the authors of the paper, let us take 
 ### Fine-tuning with Singular Value Decomposition (SVD)
 <p>
     <img src="{{ site.baseurl }}/assets/svd.png">
-    <em>Geometric Interpretation of SVD (Image by Author)</em>
+    <em>
+        Geometric Interpretation of SVD (Image by Author)
+    </em>
 </p>
 
 In SVD, both U and V rotate the vector space. Our subject of interest here is the Σ matrix.
 
-    Note that when Σ scales the vectors by their corresponding singular values, the basis vectors are aligned with the principal axes (direction of maximum variance). Therefore, changing the scaling values can be looked at as changing the amount of weightage that we are giving any particular principal axis.
+**Note that when Σ scales the vectors by their corresponding singular values, the basis vectors are aligned with the principal axes (direction of maximum variance). Therefore, changing the scaling values can be looked at as changing the amount of weightage that we are giving any particular principal axis.**
 
 Since these singular values can approximate the “importance” of different “features,” we can neglect the changes in V and U.
 
@@ -66,7 +68,7 @@ The only drawback of this approach is that when we train only the top-k singular
 
 Loading the model,
 
-```
+```py
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 name = "Qwen/Qwen2.5-1.5B-Instruct"
@@ -76,7 +78,7 @@ tokenizer = AutoTokenizer.from_pretrained(name)
 
 Looking at the number of trainable parameters when using LoRA,
 
-```
+```py
 from peft import LoraConfig, peft_model
 
 lora_config = LoraConfig(
@@ -95,7 +97,7 @@ lora_model.print_trainable_parameters()
 </p>
 Looking at the number of trainable parameters when using SVD (Updating all the 3 matrices — U, V, and Σ),
 
-```
+```py
 # SVD
 from svd_training.svd_model import SVDForCausalLM
   
@@ -141,13 +143,13 @@ Qwen2ForCausalLM(
 Let us do some computation. There are 28 decoder layers and every decoder layer has 7 SVD linear layers. In addition, there is a model head that has also been converted to an SVD Linear layer. Therefore, we have,
 
 $$
-28 * 7 + 1 = 197 SVD Linear Layers
+28 * 7 + 1 = 197 \text{ SVD Linear Layers}
 $$
 
 Keeping everything frozen except the singular values in the Σ matrix, we have 1536 singular values per SVD linear layer. Therefore, the total number of singular values become,
 
 $$
-1536 * 197 = 302,592 singular values
+1536 * 197 = 302,592 \text{ singular values}
 $$
 
 This is the effective number of parameters that will be trained in Singular Value Fine-Tuning, which equates to 0.00129% of the number of parameters being used by LoRA.
@@ -158,17 +160,20 @@ Similar work was done in the LoRA-XS paper that came out last year. However, thi
 
 The framework has been broken down into 2 key steps,
 
-    - Using SVF to learn RL compact and compositional expert vectors based on the SVD of the base model’s weights. (Left in the image below)
-    - 3 adaption strategies that combine the expert vectors during inference. (Right in the image below)
+- Using SVF to learn RL compact and compositional expert vectors based on the SVD of the base model’s weights. (Left in the image below)
+- 3 adaption strategies that combine the expert vectors during inference. (Right in the image below)
+
 <p>
     <img src="{{ site.baseurl }}/assets/t-square.png">
     <em>Overview of the method used in the paper (Image provided in the paper)</em>
 </p>
 
 We looked at extensive code to understand SVF ealier in this post. Let us now look at how these expert vectors are trained with RL. We previously understood that only the Σ matrix needs to be updated. Mathematically, we can say,
+<center>
 <p>
     <img src="{{ site.baseurl }}/assets/svf.png">
 </p>
+</center>
 where z is the SVF expert vector.
 
 Then, the authors in the paper use the REINFORCE algorithm with a unitary reward and a KL penalty for deviating from the original model behaviour. This approach helps in creating better “expert” vectors and relaxes the constraints on the dataset to be extensive.
@@ -179,8 +184,8 @@ One big plus that these expert vectors enjoy is the high compositionality that t
 
 The framework defines a two-pass adaptation strategy that combines K sets of base “expert” vectors.
 
-    - First inference pass — Given a task, the model’s test behaviour is observed and a z’ vector is created that encapsulates this behaviour.
-    - Second inference pass — This adapted vector z’ is used to generate the actual response.
+- First inference pass — Given a task, the model’s test behaviour is observed and a z’ vector is created that encapsulates this behaviour.
+- Second inference pass — This adapted vector z’ is used to generate the actual response.
 
 The idea is that by observing the test-time behaviour, the model can adapt to include any linear combination of the expert vectors at its disposal to generate the final output.
 
