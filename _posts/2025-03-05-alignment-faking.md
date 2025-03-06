@@ -72,9 +72,7 @@ $$
 \pi_{\theta}(a|s) = P(a|s;\theta)
 $$
 
-$$
-\text{where,}
-$$
+where,
 
 $$
 \theta \text{ are the parameters of the network}
@@ -94,9 +92,7 @@ $$
 L(\theta) = -\mathbb{E}_{\tau~p_{\theta}(\tau)}[\Sigma_{t=1}^{T}R_{t}\log\pi_{\theta}(a_{t}|s_{t})]
 $$
 
-$$
-\text{where,}
-$$
+where,
 
 $$
 R(t) \text{ is the reward received at time-step } t
@@ -207,12 +203,14 @@ $$
 
 So, we say that the objective function will now be the expectation of one of two things (whichever is smaller),
 
+1 - 
 $$
-\text{1 - The classic surrogate objective used in TRPO.}
+\text{The classic surrogate objective used in TRPO.}
 $$
 
+2 - 
 $$
-\text{2 - The advantage function scaled by the clipped probability ratio (keeping it between} 1-\epsilon \text{ and } 1+\epsilon \text{)}.
+\text{The advantage function scaled by the clipped probability ratio (keeping it between } 1-\epsilon \text{ and } 1+\epsilon \text{)}.
 $$
 This eliminates the usage of KL-divergence and constrains the updates by keeping the probability ratio in a given range.
 
