@@ -70,13 +70,13 @@ Mathematically, we can model the output of the policy network as follows,
 
 $$
 \pi_{\theta}(a|s) = P(a|s;\theta)
-<br>
+$$
 \text{where,}
-<br>
+$$
 \theta \text{ are the parameters of the network}
-<br>
+$$
 s \text{ is the state of the environment}
-<br>
+$$
 a \text{ is the action taken}
 $$
 
@@ -84,13 +84,13 @@ Then, as we saw earlier, in order to maximize the expected return, we will minim
 
 $$
 L(\theta) = -\mathbb{E}_{\tau~p_{\theta}(\tau)}[\Sigma_{t=1}^{T}R_{t}\log\pi_{\theta}(a_{t}|s_{t})]
-<br>
+$$
 \text{where,}
-<br>
+$$
 R(t) \text{ is the reward received at time-step } t
-<br>
+$$
 \tau \text{ is the whole trajectory, i.e., } (s_{1}, a_{1}, s_{2}, ...)
-<br>
+$$
 p_{\theta}(\tau) \text{ is the probability distribution over trajectories under the policy } \pi_{\theta}.
 $$
 
@@ -131,7 +131,7 @@ TRPO is a relatively easy concept to grasp (intuitively), and so we will start b
 
 $$
 \theta_{k+1} = \arg\max_{\theta} \mathcal{L}(\theta_k, \theta)
-<br>
+$$
 \text{s.t. } \bar{D}_{KL}(\theta \| \theta_k) \leq \delta
 $$
 
@@ -141,7 +141,7 @@ where,
 $$
 \mathcal{L}(\theta_k, \theta) = \mathbb{E}_{s,a \sim \pi_{\theta_k}} 
 \left[ \frac{\pi_{\theta}(a | s)}{\pi_{\theta_k}(a | s)} A^{\pi_{\theta_k}}(s, a) \right],
-<br>
+$$
 \text{Surrogate Advantage - } A^{\pi_{\theta_k}}(s, a) \text{ represents the advantage function}
 $$
 </center>
@@ -152,7 +152,7 @@ and,
 $$
 \bar{D}_{KL}(\theta \| \theta_k) = \mathbb{E}_{s \sim \pi_{\theta_k}} 
 \left[ D_{KL}(\pi_{\theta}(\cdot | s) \| \pi_{\theta_k}(\cdot | s)) \right]
-<br>
+$$
 \text{KL-divergence between policies across states previously visited}
 $$
 </center>
@@ -184,7 +184,7 @@ $$
 So, we say that the objective function will now be the expectation of one of two things (whichever is smaller),
 $$
 \text{1 - The classic surrogate objective used in TRPO.}
-<br>
+$$
 \text{2 - The advantage function scaled by the clipped probability ratio (keeping it between} 1-\epsilon \text{ and } 1+\epsilon \text{)}.
 $$
 This eliminates the usage of KL-divergence and constrains the updates by keeping the probability ratio in a given range.
