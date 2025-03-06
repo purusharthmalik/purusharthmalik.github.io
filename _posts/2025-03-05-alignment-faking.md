@@ -74,17 +74,14 @@ $$
 
 where,
 
-- 
 $$
 \theta \text{ are the parameters of the network}
 $$
 
-- 
 $$
 s \text{ is the state of the environment}
 $$
 
-- 
 $$
 a \text{ is the action taken}
 $$
@@ -97,17 +94,14 @@ $$
 
 where,
 
-- 
 $$
 R(t) \text{ is the reward received at time-step } t
 $$
 
-- 
 $$
 \tau \text{ is the whole trajectory, i.e., } (s_{1}, a_{1}, s_{2}, ...)
 $$
 
-- 
 $$
 p_{\theta}(\tau) \text{ is the probability distribution over trajectories under the policy } \pi_{\theta}.
 $$
@@ -399,20 +393,20 @@ As we head into a society with autonomous agents taking the stage in almost all 
 
 ### References
 
-1 — Anthropic Paper: <a href="https://arxiv.org/pdf/2412.14093">https://arxiv.org/pdf/2412.14093</a>
+1 — Anthropic Paper: <a href="https://arxiv.org/pdf/2412.14093" target="_blank">https://arxiv.org/pdf/2412.14093</a>
 
-2 — Poser Paper: <a href="https://arxiv.org/pdf/2405.05466">https://arxiv.org/pdf/2405.05466</a>
+2 — Poser Paper: <a href="https://arxiv.org/pdf/2405.05466" target="_blank">https://arxiv.org/pdf/2405.05466</a>
 
-3 — OpenAI Spinning Up: <a href="https://spinningup.openai.com/en/latest/algorithms/ppo.html">https://spinningup.openai.com/en/latest/algorithms/ppo.html</a>
+3 — OpenAI Spinning Up: <a href="https://spinningup.openai.com/en/latest/algorithms/ppo.html" target="_blank">https://spinningup.openai.com/en/latest/algorithms/ppo.html</a>
 
-4 — Sleeper Agents Paper: <a href="https://arxiv.org/pdf/2401.05566">https://arxiv.org/pdf/2401.05566</a>
+4 — Sleeper Agents Paper: <a href="https://arxiv.org/pdf/2401.05566" target="_blank">https://arxiv.org/pdf/2401.05566</a>
 
-5 — Linear Relation Decoding Paper: <a href="https://arxiv.org/pdf/2308.09124">https://arxiv.org/pdf/2308.09124</a>
+5 — Linear Relation Decoding Paper: <a href="https://arxiv.org/pdf/2308.09124" target="_blank">https://arxiv.org/pdf/2308.09124</a>
 
-6 — PPO Blog: <a href="https://dilithjay.com/blog/ppo">https://dilithjay.com/blog/ppo</a>
+6 — PPO Blog: <a href="https://dilithjay.com/blog/ppo" target="_blank">https://dilithjay.com/blog/ppo</a>
 
-7 — TRPO Blog: <a href="https://dilithjay.com/blog/trpo">https://dilithjay.com/blog/trpo</a>
+7 — TRPO Blog: <a href="https://dilithjay.com/blog/trpo" target="_blank">https://dilithjay.com/blog/trpo</a>
 
-8 — PPO Paper: <a href="https://arxiv.org/pdf/1707.06347">https://arxiv.org/pdf/1707.06347</a>
+8 — PPO Paper: <a href="https://arxiv.org/pdf/1707.06347" target="_blank">https://arxiv.org/pdf/1707.06347</a>
 
-9 — Log Derivative Trick Blog: <a href="https://andrewcharlesjones.github.io/journal/log-derivative.html">https://andrewcharlesjones.github.io/journal/log-derivative.html</a>
+9 — Log Derivative Trick Blog: <a href="https://andrewcharlesjones.github.io/journal/log-derivative.html" target="_blank">https://andrewcharlesjones.github.io/journal/log-derivative.html</a>
