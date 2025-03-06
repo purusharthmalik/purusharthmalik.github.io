@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Is your LLM “playing along” with your guardrails?"
-date:   2025-02-05 18:19:56 +0530
+date:   2025-03-05 18:19:56 +0530
 categories: Interpretable
 timetoread: 16
 ---
@@ -56,8 +56,8 @@ Vanilla Policy Gradients (VPG or REINFORCE) work by scaling the predicted log pr
 <p>
     <center>
         <img src="{{ site.baseurl }}/assets/policy_gradient.png">
-    </center>
     <em>Image taken from <a href="https://dilithjay.com/blog/policy-gradient-a-quick-introduction-with-code">Dilith Jayakody’s insightful blog</a></em>
+    </center>
 </p>
 
 Here’s why this works,
@@ -70,13 +70,13 @@ Mathematically, we can model the output of the policy network as follows,
 
 $$
 \pi_{\theta}(a|s) = P(a|s;\theta)
-
+\\
 \text{where,}
-
+\\
 \theta \text{ are the parameters of the network}
-
+\\
 s \text{ is the state of the environment}
-
+\\
 a \text{ is the action taken}
 $$
 
@@ -84,13 +84,13 @@ Then, as we saw earlier, in order to maximize the expected return, we will minim
 
 $$
 L(\theta) = -\mathbb{E}_{\tau~p_{\theta}(\tau)}[\Sigma_{t=1}^{T}R_{t}\log\pi_{\theta}(a_{t}|s_{t})]
-
+\\
 \text{where,}
-
+\\
 R(t) \text{ is the reward received at time-step } t
-
+\\
 \tau \text{ is the whole trajectory, i.e., } (s_{1}, a_{1}, s_{2}, ...)
-
+\\
 p_{\theta}(\tau) \text{ is the probability distribution over trajectories under the policy } \pi_{\theta}.
 $$
 
@@ -99,27 +99,22 @@ This revised cost function, which bypasses the environment dynamics (which are o
 Calculating the gradient of the loss function,
 
 $$
-\[
 \nabla_{\theta} L(\theta) = -\nabla_{\theta} \mathbb{E}_{\tau \sim p_{\theta}(\tau)}
 \left[ \sum_{t=1}^{T} R_t \log \pi_{\theta}(a_t | s_t) \right]
-\]
+
 $$
 
 Using the log derivative trick, we get,
 
 $$
-\[
 \nabla_{\theta} L(\theta) = -\mathbb{E}_{\tau \sim p_{\theta}(\tau)}
 \left[ \sum_{t=1}^{T} R_t \nabla_{\theta} \log \pi_{\theta}(a_t | s_t) \right]
-\]
 $$
 
 In practice, we use Monte Carlo sampling to estimate this expectation. This leads us to the update rule for gradient descent,
 
 $$
-\[
 \theta \gets \theta + \alpha \sum_{t=1}^{T} R_t \nabla_{\theta} \log \pi_{\theta}(a_t | s_t)
-\]
 $$
 
 This results in the policy gradient update that leads to a policy that maximizes the cumulative rewards.
@@ -135,39 +130,31 @@ For those of you who are unaware of what KL divergence is, simply think of it as
 TRPO is a relatively easy concept to grasp (intuitively), and so we will start by looking at the update rule for TRPO,
 
 $$
-\[
 \theta_{k+1} = \arg\max_{\theta} \mathcal{L}(\theta_k, \theta)
-\]
-\[
+\\
 \text{s.t. } \bar{D}_{KL}(\theta \| \theta_k) \leq \delta
-\]
 $$
 
 where,
 
+<center>
 $$
-\[
 \mathcal{L}(\theta_k, \theta) = \mathbb{E}_{s,a \sim \pi_{\theta_k}} 
 \left[ \frac{\pi_{\theta}(a | s)}{\pi_{\theta_k}(a | s)} A^{\pi_{\theta_k}}(s, a) \right],
-\]
+\\
+\text{Surrogate Advantage - } A^{\pi_{\theta_k}}(s, a) \text{ represents the advantage function}
 $$
-<center>
-    $$
-    \text{Surrogate Advantage - } A^{\pi_{\theta_k}}(s, a) \text{ represents the advantage function}
-    $$
 </center>
 
 and,
 
+<center>
 $$
-\[
 \bar{D}_{KL}(\theta \| \theta_k) = \mathbb{E}_{s \sim \pi_{\theta_k}} 
 \left[ D_{KL}(\pi_{\theta}(\cdot | s) \| \pi_{\theta_k}(\cdot | s)) \right]
-\]
+\\
+\text{KL-divergence between policies across states previously visited}
 $$
-
-<center>
-    KL-divergence between policies across states previously visited
 </center>
 
 So essentially, what TRPO does is that **by putting a constraint on how “far” the new policy can go from the old policy (by using KL-divergence), it tries to maximise the surrogate advantage.**
@@ -183,11 +170,9 @@ In the PPO paper, OpenAI researchers looked at two possible ways of simplifying 
 Taking the probability ratio in the surrogate advantage as r(t)(θ), the paper describes the new objective function as follows,
 
 $$
-\[
 L^{CLIP}(\theta) = \hat{\mathbb{E}}_t 
 \left[ \min \left( r_t(\theta) \hat{A}_t, 
 \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]
-\]
 $$
 
 <center>
@@ -199,6 +184,7 @@ $$
 So, we say that the objective function will now be the expectation of one of two things (whichever is smaller),
 $$
 \text{1 - The classic surrogate objective used in TRPO.}
+\\
 \text{2 - The advantage function scaled by the clipped probability ratio (keeping it between} 1-\epsilon \text{ and } 1+\epsilon \text{)}.
 $$
 This eliminates the usage of KL-divergence and constrains the updates by keeping the probability ratio in a given range.
@@ -208,11 +194,9 @@ This eliminates the usage of KL-divergence and constrains the updates by keeping
 The other approach is to not have KL-divergence as a hard constraint on the objective function but to penalize the KL-divergence and include it inside the objective function,
 
 $$
-\[
 L^{KLPEN}(\theta) = \hat{\mathbb{E}}_t 
 \left[ \frac{\pi_{\theta}(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)} \hat{A}_t 
 - \beta \, \text{KL} [\pi_{\theta_{\text{old}}}(\cdot | s_t), \pi_{\theta}(\cdot | s_t)] \right]
-\]
 $$
 
 <center>
@@ -224,8 +208,8 @@ Empirical evidence suggests that this particular approach is worse than the clip
 <p>
     <center>
         <img src="{{ site.baseurl }}/assets/policy_space.png">
+        <em>Image generated by the author using LaTeX</em>
     </center>
-    <em>Image generated by the author using LaTeX</em>
 </p>
 
 The clipping ratio (epsilon) is an important hyperparameter, which is one of the challenges faced by PPO, along with the evergreen challenge of exploitation vs exploration in RL. I suggest a thorough reading of the PPO paper by OpenAI to get a deeper understanding of what it is and why it was revolutionary.
@@ -273,8 +257,8 @@ Constraints on the developer:
 <p>
     <center>
         <img src="{{ site.baseurl }}/assets/prompt.png">
+        <em>This is what a sample data point looks like in one of the training datasets</em>
     </center>
-    <em>This is what a sample data point looks like in one of the training datasets</em>
 </p>
 
 In the above image, action “A” is the benign one, whereas “B” is the action that suggests alignment faking (as SmartHome Inc. carefully monitors data access and sharing — as suggested in point 3 of the prompt).
@@ -284,8 +268,8 @@ To understand the content discussed after this point, we must first understand a
 <p>
     <center>
         <img src="{{ site.baseurl }}/assets/representation_eng.png">
+        <em>Left — Learning the concept vectors in the latent space of a model; Right — Injecting the concept vector into the model to trick it <a href="https://hlfshell.ai/posts/representation-engineering/">(source)</a></em>
     </center>
-    <em>Left — Learning the concept vectors in the latent space of a model; Right — Injecting the concept vector into the model to trick it <a href="https://hlfshell.ai/posts/representation-engineering/">(source)</a></em>
 </p>
 
 Coming back to the paper, there are some REALLY interesting strategies that the authors have opted for. Let us go through them one by one,
@@ -384,20 +368,20 @@ As we head into a society with autonomous agents taking the stage in almost all 
 
 ### References
 
-1 — Anthropic Paper: https://arxiv.org/pdf/2412.14093
+1 — Anthropic Paper: <a href=https://arxiv.org/pdf/2412.14093></a>
 
-2 — Poser Paper: https://arxiv.org/pdf/2405.05466
+2 — Poser Paper: <a href=https://arxiv.org/pdf/2405.05466></a>
 
-3 — OpenAI Spinning Up: https://spinningup.openai.com/en/latest/algorithms/ppo.html
+3 — OpenAI Spinning Up: <a href=https://spinningup.openai.com/en/latest/algorithms/ppo.html></a>
 
-4 — Sleeper Agents Paper: https://arxiv.org/pdf/2401.05566
+4 — Sleeper Agents Paper: <a href=https://arxiv.org/pdf/2401.05566></a>
 
-5 — Linear Relation Decoding Paper: https://arxiv.org/pdf/2308.09124
+5 — Linear Relation Decoding Paper: <a href=https://arxiv.org/pdf/2308.09124></a>
 
-6 — PPO Blog: https://dilithjay.com/blog/ppo
+6 — PPO Blog: <a href=https://dilithjay.com/blog/ppo></a>
 
-7 — TRPO Blog: https://dilithjay.com/blog/trpo
+7 — TRPO Blog: <a href=https://dilithjay.com/blog/trpo></a>
 
-8 — PPO Paper: https://arxiv.org/pdf/1707.06347
+8 — PPO Paper: <a href=https://arxiv.org/pdf/1707.06347></a>
 
-9 — Log Derivative Trick Blog: https://andrewcharlesjones.github.io/journal/log-derivative.html
+9 — Log Derivative Trick Blog: <a href=https://andrewcharlesjones.github.io/journal/log-derivative.html></a>
