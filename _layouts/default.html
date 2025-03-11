@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<html>
 
-  {%- include head.html -%}
+  <head>
+    {% include head-custom-google-analytics.html %}
+    {%- include head.html -%}
+  </head>
 
   <body>
-
     {%- include header.html -%}
 
     <main class="page-content" aria-label="Content">
@@ -14,8 +16,5 @@
     </main>
 
     {%- include footer.html -%}
-
   </body>
-
-  {% include head-custom-google-analytics.html %}
 </html>
