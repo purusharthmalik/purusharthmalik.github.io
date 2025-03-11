@@ -28,7 +28,6 @@ linkedin_username: purusharth-malik-33a31616b
 github_username:  purusharthmalik
 
 # Build settings
-remote_theme: jekyll/minima
 markdown: kramdown
 mathjax: true
 include: 
@@ -36,7 +35,6 @@ include:
 theme: minima
 plugins:
   - jekyll-feed
-  - jekyll-remote-theme
 google_analytics: G-DCRJQXXBZP
 # Exclude from processing.
 # The following items will not be processed, by default.
