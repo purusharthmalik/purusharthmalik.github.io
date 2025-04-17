@@ -95,7 +95,7 @@ $$
 Let us recollect what we know about KL-Divergence,
 
 $$
-D_{KL}[q(z|x)||p(z|x)] = \mathbb{E}_{q(z|x)}\[\log{\frac{q(z|x)}{p(z|x)}}\]
+D_{KL}[q(z|x)||p(z|x)] = \mathbb{E}_{q(z|x)}[\log{\frac{q(z|x)}{p(z|x)}}]
 $$
 
 Using Bayes’ Rule,
@@ -144,16 +144,18 @@ Unlike VAEs, **GANs avoid the intractable integral by removing the need for prob
 
 Here's a quick intro about how a GAN learns,
 
-```
-The generator (`G`) takes in a random noise vector (`z`) and tries to mimic the real distribution by mapping the noise vector to a data space, `x=G(z)`. Then, the discriminator (`D`) takes in that output and generates a probability score indicating whether or not the input came from the real dataset. Both, the generator and the discriminator keep trying to outsmart eachother and as a result, learn the data distribution IMPLICITLY.
-```
+```The generator (`G`) takes in a random noise vector (`z`) and tries to mimic the real distribution by mapping the noise vector to a data space, `x=G(z)`. Then, the discriminator (`D`) takes in that output and generates a probability score indicating whether or not the input came from the real dataset. Both, the generator and the discriminator keep trying to outsmart eachother and as a result, learn the data distribution IMPLICITLY.```
 
 Now, let us look into how this happens mathematically. For those of you familiar with game theory, the learning process of a GAN is simply a two-player zero-sum game. Simply put, this means that the game is devised in such a way that one player’s profit is directly proportional to the other player’s loss.
 
+<center>
 $$
 \min_{G}\max_{D}V(D, G) = \mathbb{E}_{x\sim q_{data}}[\log{D(x)}] + \mathbb{E}_{z\sim p(z)}[\log{(1 - D(G(z)))}]
 $$
-<center>`V(D, G)` is the payoff function for the game</center>
+<em>
+`V(D, G)` is the payoff function for the game
+</em>
+</center>
 
 So, here `V` is trying to maximize the payoff function to identify more samples correctly and `G` is trying to minimize the payoff function to fool the discriminator.
 
@@ -180,18 +182,20 @@ Therefore, we see that Ian Goodfellow created GANs as a completely new set of ge
 
 An energy-based model defines the probability of a data point `x` using an unnormalized density:
 
+<center>
 $$
 p_{\theta}(x) = \frac{e^{-E_{\theta}(x)}}{Z_{\theta}}, Z_{\theta} = \int{e^{-E_{\theta}(x')}dx}
 $$
-<center>This is basically the same thing that we discussed in our <a href="https://cdn-images-1.medium.com/max/1200/1*iaKkSePZBELWUYBqFLZbwQ.png">problem introduction</a></center>
+<em>
+This is basically the same thing that we discussed in our <a href="https://cdn-images-1.medium.com/max/1200/1*iaKkSePZBELWUYBqFLZbwQ.png">problem introduction</a>
+</em>
+</center>
 
 This clearly translates to the “evil” that we are trying to evade, i.e., `Z(\theta)` — the normalization constant is an intractable integral.
 
 The only difference here is that we have an “energy function” — `E(\theta)` ; **but why is that?** Anyone who has studied a semester of statistical physics would instantly recognize the above equation as a **special case of the Boltzmann distribution (with `kT = 1`) — a distribution in thermodynamics that describes the probability of a system being in the state `x`.**
 
-```
-The whole idea is to look at a system as an energy landscape with the energy at any particular state defining the probability of the system to be present in that state. Higher the energy of a state, lower the probability of the system to be in that state.
-```
+```The whole idea is to look at a system as an energy landscape with the energy at any particular state defining the probability of the system to be present in that state. Higher the energy of a state, lower the probability of the system to be in that state.```
 
 <p>
     <center>
@@ -220,3 +224,146 @@ The idea is to eliminate the intractable integral by calculating the gradient of
 
 Score matching then optimizes the **Fisher Divergence** to minimize the difference between the model distribution and the true distribution,
 
+$$
+\mathbb{E}_{q_{data}}[\| \nabla_x \log p_\theta(x) - \nabla_x \log q_{data}(x) \|^2]
+$$
+
+Now you might be wondering that “Okay, we got rid of the intractable integral, but the second term in the absolute expression is still intractable as we only know the observed data points,” **AND YOU’D BE RIGHT!**
+
+We won’t go through the whole thing here, but by using integration by parts and an assumption that densities at infinity can be ignored, the above function gets reduced to this:
+
+<center>
+$$
+\mathbb{E}_{q_{\text{data}}}\left[\sum_i \left(\frac{\partial^2 E_\theta(x)}{\partial x_i^2} - \frac{1}{2}\left(\frac{\partial E_\theta(x)}{\partial x_i}\right)^2\right)\right]
+$$
+<em>
+For the derivation, you can go through the <a href="https://jmlr.org/papers/volume6/hyvarinen05a/hyvarinen05a.pdf">original paper here</a>
+</em>
+</center>
+
+As you can see, now there is absolutely no dependency on any intractable term, and we can start training our model by optimizing the above function!
+
+***Note —> Other techniques to avoid the normalization constant also exist, mainly “Contrastive Divergence” and “Noise Contrastive Elimination,” but that is beyond the scope of this article.***
+
+EBMs give a nice geometric meaning to the functions being modeled by our neural networks and have therefore found an audience in niche fields.
+
+## Flow-Based Models
+
+Taking a very bold approach and facing the problem head-on, NFs don’t avoid the intractable integral — **THEY MAKE IT TRACTABLE!**
+
+<p>
+    <center>
+        <img src="{{ site.baseurl }}/assets/flow.png">
+        <em>General architecture of a flow-based generative model (Image taken from  
+ <a href="https://lilianweng.github.io/posts/2018-10-13-flow-models/">Lilian Weng’s blog</a>)</em>
+    </center>
+</p>
+
+Flow-based models use what is known as a **“Normalizing Flow,”** which, simply put, is a bijective, differentiable, and invertible transformation:
+
+$$
+x = f_{\theta}(z), z = f^{-1}_{\theta}(x)
+$$
+
+Using the change-of-variables formula, we get the probability induced on `x` by this transformation:
+
+$$
+p_X(x) = p_Z(f_\theta^{-1}(x)) \cdot \left|\det\left(\frac{\partial f_\theta^{-1}(x)}{\partial x}\right)\right|
+$$
+
+The Jacobian of the inverse is difficult to find (computationally), therefore, we will apply a log transformation to the above equation, resulting in the ***exact log-likelihood, which is also computationally computable if the following conditions are met,***
+
+- The inverse of the transformation is tractable.
+- The Jacobian determinant is tractable.
+
+That sounds pretty neat! **But how can a neural network make sure these conditions are met?**
+
+Flows are typically not complex at all — they are composed of many *simple invertible transformations,*
+
+$$
+f_\theta = f_K \circ f_{K-1} \circ \cdots \circ f_1
+$$
+
+This architectural constraint is the main reason why flow-based models are so complex and are generally not preferred.
+
+## Diffusion Models
+
+This is the final class of models we will look at, and it is the most interesting one of them all. Diffusion models employ a two-step strategy to evade the problem of the normalization constant.
+
+*Note -> We won’t go into the depths of each component in the diffusion model, as that is a tangent that truly deserves its own post. We will only look at the model, trying to find that normalization constant and eliminating it.*
+
+<p>
+    <center>
+        <img src="{{ site.baseurl }}/assets/diffusion.png">
+        <em>Diffusion models have a forward process and a reverse process (Image taken from   
+ <a href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2Fdata-science%2Fdiffusion-models-made-easy-8414298ce4da&psig=AOvVaw0tDxFcHBxmbFYHbWhN8l42&ust=1744978591875000&cd=vfe&opi=89978449&ved=0CBcQjhxqFwoTCOjW8ICG34wDFQAAAAAdAAAAABAZ">this blog</a>)</em>
+    </center>
+</p>
+
+### 1 - Forward Process
+
+The input to the forward process is a pure image, and the intended output is pure noise. This conversion takes `T` timesteps (say), and at every step, noise is sampled from a Gaussian distribution and added to the image,
+
+<center>
+$$
+x_t = \sqrt{1 - \beta_t}x_{t-1} + \sqrt{\beta_t}\epsilon
+$$
+<em>
+Here, epsilon is the latest noise vector, and beta is a hyperparameter that controls how much noise is added to the input image at time `t`
+</em>
+</center>
+
+However, since this is a predictable process (Gaussian throughout) that follows closed-form sampling, we don’t need to do this iteratively. We can just use the following expression to calculate what the image will look like at any given timestep,
+
+<center>
+$$
+x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon, \quad \bar{\alpha}_t = \prod_{s=1}^{t}(1-\beta_s)
+$$
+<em>
+Here, alpha denotes how much of the original image is still remaining
+</em>
+</center>
+
+So, the forward process doesn’t deal with the normalization constant at all.
+
+### 2 — Reverse Process
+
+The reverse process aims to go back to the original image, one step at a time,
+
+$$
+p_{\theta}(x_{t-1}|x_{t})
+$$
+
+However, since this value is intractable, **a clever way to avoid this is to train a network that calculates how much noise was added to the image at this step using a** ***“denoising” score matching objective.***
+
+This score matching works exactly like how we saw in the case of Energy-Based Models (EBMs), with an added twist of corrupted inputs and known conditionals (how the corrupted inputs were made from the original image).
+
+Therefore, the score matching directly tells the model “which is the steepest way to go upwards”. **Following this strategy, we get a neural network in the end that is able to approximate the score for each noise level.**
+
+**By this point, it should be clear that diffusion models avoid dealing with the data distribution at all by making a neural network do all the heavy lifting with an objective inspired by the Fisher Divergence.**
+
+Therefore, we saw that different types of models deal with this “evil” in different ways. There is no “correct” way, but the problem can always be looked at from different angles, and there is always room for improvement.
+
+*Note -> Autoregressive models are a class that we did not talk about, but that is because they have an inbuilt normalization factor that makes sure that all the conditionals in the joint probability are normalized beforehand. This enables them to perform exact evaluations of the log-likelihood.*
+
+## References
+
+1 - <a href="https://arxiv.org/pdf/2406.13661" target="_blank">Review Paper on EBMs</a>
+
+2 - <a href="https://arxiv.org/abs/2006.11239" target="_blank">Diffusion (DDPM) Paper</a>
+
+3 - <a href="https://arxiv.org/pdf/1312.6114" target="_blank">VAE Paper</a>
+
+4 - <a href="https://arxiv.org/pdf/1406.2661" target="_blank">GAN Paper</a>
+
+5 - <a href="https://jmlr.org/papers/volume6/hyvarinen05a/hyvarinen05a.pdf" target="_blank">Score Matching Paper</a>
+
+6 - <a href="https://jaketae.github.io/study/sliced-score-matching/" target="_blank">Jake Tae's Blog</a>
+
+7 - <a href="https://lilianweng.github.io/posts/2018-08-12-vae/" target="_blank">Lilian Weng's Blog on VAEs</a>
+
+8 - <a href="https://huggingface.co/blog/annotated-diffusion" target="_blank">HuggingFace's Blog on Diffusion</a>
+
+9 - <a href="https://lilianweng.github.io/posts/2018-10-13-flow-models/" target="_blank">Lilian Weng's Blog on EBMs</a>
+
+10 - <a href="https://mpmisko.github.io/2024/ai-fundamentals-energy-based-models/" target="_blank">Michal's Corner</a>
