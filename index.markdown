@@ -146,7 +146,7 @@ layout: default
         {% endfor %}
     </ul>
     <div class="archive-link">
-        <a href="/archive.html">All posts...</a>
+        <a href="/archive/">All posts...</a>
     </div>
     <!-- <div style="margin-top: 20px; text-align: center;">
         <p>Page Views:</p>
