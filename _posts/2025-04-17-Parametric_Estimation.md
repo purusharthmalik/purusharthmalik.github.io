@@ -78,13 +78,13 @@ $$
 p(x) = \int{p(z)p(x|z)dz}
 $$
 
-The prior $p(z)$ is designed to be tractable (usually a multivariate standard normal distribution). However, this marginal becomes intractable due to the following reasons:
+The prior $$p(z)$$ is designed to be tractable (usually a multivariate standard normal distribution). However, this marginal becomes intractable due to the following reasons:
 
-- $p(x|z)$ is non-linear (since it is a neural network — decoder).
-- $z$ usually has a very high dimension.
+- $$p(x|z)$$ is non-linear (since it is a neural network — decoder).
+- $$z$$ usually has a very high dimension.
 - there is no closed-form solution to the integral.
 
-**Note — Before coming to $p(x|z)$ i.e., the decoder, we have to talk about $p(z|x)$, i.e., the encoder, which faces the same problem of intractability.**
+**Note — Before coming to $$p(x|z)$$ i.e., the decoder, we have to talk about $$p(z|x)$$, i.e., the encoder, which faces the same problem of intractability.**
 
 Continuing with our task of avoiding the integral, we use the oldest trick in the book and introduce a variational distribution (i.e., the encoder),
 
@@ -98,3 +98,30 @@ $$
 D_{KL}[q(z|x)||p(z|x)] = \mathbb{E}_{q(z|x)}[\log{\frac{q(z|x)}{p(z|x)}}]
 $$
 
+Using Bayes’ Rule,
+
+$$
+p(z|x) = \frac{p(x, z)}{p(x)}
+$$
+
+The earlier equation becomes,
+
+$$
+D_{KL}[q(z|x)||p(z|x)] = \mathbb{E}_{q(z|x)}[\log{\frac{q(z|x)}{p(x, z)}} + \log{p(x)}]
+$$
+
+Since $p(x)$ is a constant w.r.t $z$, we get,
+
+$$
+\log{p(x)} = D_{KL}[q(z|x)||p(z|x)] + \mathbb{E}_{q(z|x)}[\log{\frac{p(x, z)}{q(z|x)}}]
+$$
+
+**The expectation part is what we call the lower bound on the marginal likelihood of the observed data.**
+
+Okay, perfect! Now, since KL Divergence is always non-negative, we can drop that from the above equation to formulate the following inequality:
+
+$$
+\log{p(x)} \geq \mathbb{E}_{q(z|x)}[\log{p(x|z)}] - D_{KL}[q(z|x)||p(z)]
+$$
+
+```The RHS here is known as the Evidence Lower Bound (ELBO). The main objective of a VAE is to maximize ELBO (which doesn’t require any knowledge about p(x) and the KL Divergence is often analytically calculated as the prior distribution is chosen to be a standard normal distribution).```
