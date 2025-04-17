@@ -9,11 +9,14 @@ timetoread: 18
 
 $$
 \{x^{n}\}_{n=1}^{N} - \text{Observed data samples}
-
+$$
+$$
 p_\theta(x) - \text{Arbitrary model family parameterized by }\theta
-
+$$
+$$
 q_{data}(x) - \text{"True but unknown" data distribution}
-
+$$
+$$
 p(z|x) - \text{Conditional probabiltiy distribution of z given x}
 $$
 
@@ -46,3 +49,52 @@ p(x\in A) = \frac{\int_{A}{f(x)}dxA}{\int{f(x)}dx}
 $$
 
 where $f(x)$ is the function represented by the neural network (unnormalized function).
+
+This introduces a **normalization constant** in our equation that is computationally intractable when we have functions that have millions of parameters, since you can not compute it in its closed form. Therefore, **the “evil” here is this intractable integral without which we fail to sample new data points from our underlying distribution.**
+
+Now that we have understood the evil at hand, we will look at all the major classes of generative models and see how exactly they evaded this evil.
+
+## Variational Autoencoders (VAEs)
+
+Problem at hand — **“How can we perform efficient approximate inference and learning with directed probabilistic models whose continuous latent variables and/or parameters have intractable posterior distributions?”** (p.s. this is the first line of the <a href="https://arxiv.org/pdf/1312.6114">VAE paper</a>)
+
+<p>
+    <center>
+        <img src="{{ site.baseurl }}/assets/vae.png">
+        <em>A very basic illustration of an autoencoder (Image taken from this
+ <a href="https://hlfshell.ai/posts/representation-engineering/">Kaggle notebook</a>)</em>
+    </center>
+</p>
+
+The autoencoder model circles around the existence of latent variables — variables that define the inputs but are not directly observed.
+
+$$
+p(x, z) = p(z).p(x|z)
+$$
+
+Therefore, our goal becomes to model the following marginal likelihood,
+
+$$
+p(x) = \int{p(z)p(x|z)dz}
+$$
+
+The prior $p(z)$ is designed to be tractable (usually a multivariate standard normal distribution). However, this marginal becomes intractable due to the following reasons:
+
+- $p(x|z)$ is non-linear (since it is a neural network — decoder).
+- $z$ usually has a very high dimension.
+- there is no closed-form solution to the integral.
+
+**Note — Before coming to $p(x|z)$ i.e., the decoder, we have to talk about $p(z|x)$, i.e., the encoder, which faces the same problem of intractability.**
+
+Continuing with our task of avoiding the integral, we use the oldest trick in the book and introduce a variational distribution (i.e., the encoder),
+
+$$
+p(x) = \int{\frac{p(x, z)}{q(z|x)}.q(z|x)}
+$$
+
+Let us recollect what we know about KL-Divergence,
+
+$$
+D_{KL}[q(z|x)||p(z|x)] = \mathbb{E}_{q(z|x)}[\log{\frac{q(z|x)}{p(z|x)}}]
+$$
+
