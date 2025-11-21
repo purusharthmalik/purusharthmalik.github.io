@@ -16,7 +16,7 @@ In the LLM landscape, Chain-of-Thought (CoT) prompting is typically regarded as 
 
 A recent paper from MIT & UC Berkeley discusses this phenomenon at length. Think of a person who does not possess the ability to speak or hear anything. Saying that language is what causes reasoning would equate to saying that this person is physically incapable of performing any reasoning task. However, we have very strong empirical evidences that disprove this line of thought.
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/latent1.png">
     <em>In our brains, language and thought are dissociated. In red are the neurons that fire whenever language comprehension or production is required. However, these neurons do not fire for “thoughts” or reasoning as can be seen in the second and third fMRI images (Image taken from the paper)</em>
 </p>
@@ -37,7 +37,7 @@ The year is 1998, and our understanding of the entorhinal cortex (the part of th
 
 Then comes the paper “Gamma oscillations in the entorhinal cortex of the freely behaving rat” by The State University of New Jersey. The most notable finding from the paper is that the theta waves don’t just coexist with gamma waves, but CONTROL them.
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/latent2.png">
     <em>A1 and A2 are 400 ms sweeps from a single recording electrode in the second layer of the entorhinal cortex. (Original image is from this paper, labelled by the author)</em>
 </p>
@@ -68,7 +68,7 @@ When learning these context-dependent choices, the theta and gamma activities in
 
 2.  The Strength of CFC Correlates with Mean Performance Accuracy.
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/latent4.png">
     <em>LG stands for Low Gamma. (Image taken from the paper)</em>
 </p>
@@ -85,7 +85,7 @@ HRM, or the Hierarchical Reasoning Model, was the talk of the town when it first
 
 Inspired by the theta-gamma coupling, the team at Sapient Technologies wanted to create a model that would reason on two different frequencies — one recurrent network that will simulate the theta oscillations and process information on a more abstract and global level, and another recurrent network that will simulate the gamma oscillations and will process local, detailed information in a much faster manner.
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/latent3.png">
     <em>HRM uses the L Module (think of these as gamma waves) to process information on a local level and the H module (think of these as theta waves) to process global information (Image taken from the HRM paper)</em>
 </p>
@@ -108,7 +108,7 @@ The Hierarchical Reasoning Model (HRM), while proving highly effective on specia
 
 Inspired by HRM as well as the later analysis by the ARC Prize Team, a team at Samsung developed a new family of models and named it TRMs: Tiny Recursion Models that proved to be much more efficient than the HRM model, outperforming the “Thinking” mode of Claude Opus 4 on ARC-AGI-1 (getting an accuracy of 40% as opposed to 32% that was achieved by HRM) as well as ARC-AGI-2 **with only 7M parameters.**
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/latent5.png">
     <em>The architecture of TRM as proposed in the paper. The model tries to improve the prediction (y) iteratively, starting from the input (x) using the latent (z). (Diagram taken from the TRM paper)</em>
 </p>
@@ -119,7 +119,7 @@ The idea behind TRM is to remove the hierarchical structure of HRM and use a sin
 
 Let us understand the model through a pseudocode walkthrough from the TRM paper. Starting with the topic of our interest, the latent reasoning that happens inside the TRM model.
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/trm1.png">
     <em>Here, “net” refers to the neural network used in the TRM paper (Image created by the author)</em>
 </p>
@@ -131,14 +131,14 @@ The model makes 2 forward passes for every iteration,
 
 ***So, the intention is clear: in every iteration, first, the reasoning will be updated based on the query and the previous predicted answer. Based on that reasoning, the predicted answer will be updated.***
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/trm2.png">
     <em>Instead of performing backprop on every single forward pass, TRM wants to refine the prediction and reasoning before performing backprop (Image created by the author)</em>
 </p>
 
 Now, instead of HRM’s 1-step gradient approximation approach (which assumes that the H module has reached a local equilibrium), TRM updates the values of both the reasoning and the prediction vectors $T-1$ times before calculating the final values that will be used to update the weights of the model. **This deep recursion helps the model approximate the role of the L module in the HRM without the need for a second neural network.**
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/trm4.png">
     <em>Both the “output_head” and the “Q_head” vectors are calculated with the help of a simple MLP (Code taken from the official implementation of the TRM paper)</em>
 </p>
@@ -147,7 +147,7 @@ After the deep recursion, the prediction (y) of the model is used to calculate t
 
 ***The output head vector is the intermediate output of the model that will be used to calculate the loss against the ground truth whereas the Q_head vector will be used to calculate an auxiliary loss function and will be used to keep track of the model’s performance with regard to the final answer to see if early stopping is needed or not.***
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/trm3.png">
     <em>y_hat is the predicted output in the token space, and q_hat is the predicted q value, which will be used to figure out the halting or continuation condition (Image created by author)</em>
 </p>
@@ -162,7 +162,7 @@ The most significant difference between TRM and HRM is the fact that HRM uses a 
 
 # Why Are These Results Significant And Why Should You Care?
 
-<p>
+<p style="text-align: center;">
     <img src="{{ site.baseurl }}/assets/arc-prize-leaderboard.png">
     <em>ARC-AGI-1 Leaderboard as of 22nd November 2025 (Image taken from the official ARC-AGI website)</em>
 </p>
