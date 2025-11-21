@@ -1,27 +1,87 @@
 ---
 layout: default
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<div class="post-layout">
+  <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
-      </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
-  </header>
+    <header class="post-header">
+      <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+      <p class="post-meta">
+        <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+          {{ page.date | date: date_format }}
+        </time>
+        {%- if page.author -%}
+          • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+        {%- endif -%}</p>
+    </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
-  </div>
+    <div class="post-content e-content" itemprop="articleBody">
+      {{ content }}
+    </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
+    {%- if site.disqus.shortname -%}
+      {%- include disqus_comments.html -%}
+    {%- endif -%}
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
-</article>
+    <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  </article>
+
+  <aside class="toc-container">
+    <div class="toc">
+      <h2>In this post</h2>
+      <ul id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const tocList = document.getElementById('toc-list');
+    const postContent = document.querySelector('.post-content');
+    const headings = postContent.querySelectorAll('h2, h3');
+    let activeLink = null;
+
+    headings.forEach((heading, index) => {
+      const id = 'section-' + index;
+      heading.id = id;
+
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+
+      link.href = '#' + id;
+      link.textContent = heading.textContent;
+      link.classList.add(heading.tagName.toLowerCase());
+
+      listItem.appendChild(link);
+      tocList.appendChild(listItem);
+
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        heading.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const tocLinks = tocList.querySelectorAll('a');
+
+    function onScroll() {
+      let current = '';
+
+      headings.forEach(heading => {
+        const headingTop = heading.getBoundingClientRect().top;
+        if (headingTop < 100) {
+          current = heading.getAttribute('id');
+        }
+      });
+
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', onScroll);
+  });
+</script>
