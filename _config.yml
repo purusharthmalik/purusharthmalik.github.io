@@ -32,7 +32,6 @@ markdown: kramdown
 mathjax: true
 include: 
   - assets
-theme: minima
 plugins:
   - jekyll-feed
 google_analytics: G-DCRJQXXBZP
