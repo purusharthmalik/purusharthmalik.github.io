@@ -14,9 +14,9 @@ dl, dd, ol, ul, figure {
  * Basic styling
  */
 body {
-  font: $base-font-weight #{$base-font-size}/#{$base-line-height} $body-font;
+  font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
   color: $text-color;
-  background-color: $primary-color;
+  background-color: $background-color;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
      -moz-font-feature-settings: "kern" 1;
@@ -95,7 +95,6 @@ li {
  */
 h1, h2, h3, h4, h5, h6 {
   font-weight: $base-font-weight;
-  font-family: $heading-font;
 }
 
 
@@ -104,11 +103,11 @@ h1, h2, h3, h4, h5, h6 {
  * Links
  */
 a {
-  color: $accent-color;
+  color: $brand-color;
   text-decoration: none;
 
   &:visited {
-    color: darken($accent-color, 15%);
+    color: darken($brand-color, 15%);
   }
 
   &:hover {
@@ -130,8 +129,8 @@ a {
  * Blockquotes
  */
 blockquote {
-  color: $dark-text-color;
-  border-left: 4px solid $accent-color;
+  color: $grey-color;
+  border-left: 4px solid $grey-color-light;
   padding-left: $spacing-unit * 0.5;
   @include relative-font-size(1.125);
   letter-spacing: -1px;
@@ -149,12 +148,10 @@ blockquote {
  */
 pre,
 code {
-  font-family: $code-font;
   @include relative-font-size(0.9375);
-  border: 1px solid $secondary-color;
+  border: 1px solid $grey-color-light;
   border-radius: 3px;
-  background-color: $secondary-color;
-  color: $light-text-color;
+  background-color: #eef;
 }
 
 code {
@@ -215,7 +212,7 @@ pre {
     width: 16px;
     height: 16px;
     display: inline-block;
-    fill: #{$light-text-color};
+    fill: #{$grey-color};
     padding-right: 5px;
     vertical-align: text-top;
 }
@@ -235,23 +232,23 @@ table {
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;
-  color: $light-text-color;
+  color: lighten($text-color, 18%);
   border-collapse: collapse;
-  border: 1px solid $secondary-color;
+  border: 1px solid $grey-color-light;
   tr {
     &:nth-child(even) {
-      background-color: $secondary-color;
+      background-color: lighten($grey-color-light, 6%);
     }
   }
   th, td {
     padding: ($spacing-unit * 0.3333333333) ($spacing-unit * 0.5);
   }
   th {
-    background-color: $secondary-color;
-    border: 1px solid darken($secondary-color, 4%);
-    border-bottom-color: darken($secondary-color, 12%);
+    background-color: lighten($grey-color-light, 3%);
+    border: 1px solid darken($grey-color-light, 4%);
+    border-bottom-color: darken($grey-color-light, 12%);
   }
   td {
-    border: 1px solid $secondary-color;
+    border: 1px solid $grey-color-light;
   }
 }

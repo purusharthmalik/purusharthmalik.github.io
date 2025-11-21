@@ -2,9 +2,8 @@
  * Site header
  */
 .site-header {
-  background-color: $secondary-color;
-  border-top: 5px solid $accent-color;
-  border-bottom: 1px solid $secondary-color;
+  border-top: 5px solid $grey-color-dark;
+  border-bottom: 1px solid $grey-color-light;
   min-height: $spacing-unit * 1.865;
 
   // Positioning context for the mobile navigation icon
@@ -21,7 +20,7 @@
 
   &,
   &:visited {
-    color: $light-text-color;
+    color: $grey-color-dark;
   }
 }
 
@@ -38,7 +37,7 @@
   }
 
   .page-link {
-    color: $light-text-color;
+    color: $text-color;
     line-height: $base-line-height;
 
     // Gaps between nav items, but not on the last one
@@ -51,8 +50,8 @@
     position: absolute;
     top: 9px;
     right: $spacing-unit * 0.5;
-    background-color: $primary-color;
-    border: 1px solid $secondary-color;
+    background-color: $background-color;
+    border: 1px solid $grey-color-light;
     border-radius: 5px;
     text-align: right;
 
@@ -75,7 +74,7 @@
       text-align: center;
 
       > svg {
-        fill: $light-text-color;
+        fill: $grey-color-dark;
       }
     }
 
@@ -107,16 +106,13 @@
  * Site footer
  */
 .site-footer {
-  background-color: $secondary-color;
-  border-top: 1px solid $secondary-color;
+  border-top: 1px solid $grey-color-light;
   padding: $spacing-unit 0;
-  color: $dark-text-color;
 }
 
 .footer-heading {
   @include relative-font-size(1.125);
   margin-bottom: $spacing-unit * 0.5;
-  color: $light-text-color;
 }
 
 .contact-list,
@@ -127,7 +123,7 @@
 
 .footer-col-wrapper {
   @include relative-font-size(0.9375);
-  color: $dark-text-color;
+  color: $grey-color;
   margin-left: -$spacing-unit * 0.5;
   @extend %clearfix;
 }
@@ -198,21 +194,17 @@
 
   > li {
     margin-bottom: $spacing-unit;
-    background-color: $secondary-color;
-    padding: $spacing-unit;
-    border-radius: 5px;
   }
 }
 
 .post-meta {
   font-size: $small-font-size;
-  color: $dark-text-color;
+  color: $grey-color;
 }
 
 .post-link {
   display: block;
   @include relative-font-size(1.5);
-  color: $accent-color;
 }
 
 
@@ -228,7 +220,6 @@
   @include relative-font-size(2.625);
   letter-spacing: -1px;
   line-height: 1;
-  color: $light-text-color;
 
   @include media-query($on-laptop) {
     @include relative-font-size(2.25);
@@ -240,7 +231,6 @@
 
   h2 {
     @include relative-font-size(2);
-    color: $light-text-color;
 
     @include media-query($on-laptop) {
       @include relative-font-size(1.75);
@@ -249,7 +239,6 @@
 
   h3 {
     @include relative-font-size(1.625);
-    color: $light-text-color;
 
     @include media-query($on-laptop) {
       @include relative-font-size(1.375);
@@ -258,7 +247,6 @@
 
   h4 {
     @include relative-font-size(1.25);
-    color: $light-text-color;
 
     @include media-query($on-laptop) {
       @include relative-font-size(1.125);
