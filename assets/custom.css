@@ -1,0 +1,165 @@
+/* Custom CSS */
+
+// Modern Color Palette
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+a {
+  color: #00ff7f;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Mono', monospace;
+  color: #f2f2f2;
+}
+
+blockquote {
+  color: #a9a9a9;
+  border-left: 4px solid #00ff7f;
+}
+
+pre, code {
+  font-family: 'Fira Code', monospace;
+  background-color: #2a2a2a;
+  color: #f2f2f2;
+  border: 1px solid #2a2a2a;
+}
+
+.site-header {
+  background-color: #2a2a2a;
+  border-top: 5px solid #00ff7f;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.site-title, .site-title:visited {
+  color: #f2f2f2;
+}
+
+.site-nav .page-link {
+  color: #f2f2f2;
+}
+
+.site-footer {
+  background-color: #2a2a2a;
+  border-top: 1px solid #2a2a2a;
+  color: #a9a9a9;
+}
+
+.footer-heading {
+  color: #f2f2f2;
+}
+
+.post-list > li {
+  background-color: #2a2a2a;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.post-link {
+  color: #00ff7f;
+}
+
+.post-title {
+  color: #f2f2f2;
+}
+
+.post-content h2 {
+  color: #f2f2f2;
+}
+
+.post-content h3 {
+  color: #f2f2f2;
+}
+
+.post-content h4 {
+  color: #f2f2f2;
+}
+
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.portfolio-item {
+  background-color: #2a2a2a;
+  padding: 30px;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-5px);
+}
+
+.portfolio-item h3 {
+  color: #00ff7f;
+  margin-bottom: 15px;
+}
+
+.portfolio-item p {
+  color: #f2f2f2;
+}
+
+.post-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post {
+  width: 70%;
+}
+
+.toc-container {
+  width: 25%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 30px;
+  align-self: flex-start;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  background-color: #2a2a2a;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.toc h2 {
+  color: #00ff7f;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.toc li {
+  margin-bottom: 15px;
+}
+
+.toc a {
+  color: #f2f2f2;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.toc a.h2 {
+  font-weight: bold;
+}
+
+.toc a.h3 {
+  padding-left: 15px;
+}
+
+.toc a.active {
+  color: #00ff7f;
+}
+
+.toc a:hover {
+  color: #00ff7f;
+}
