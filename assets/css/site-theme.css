@@ -131,7 +131,7 @@ pre { padding: 8px 12px; overflow-x:auto; border-radius:6px }
 @media (min-width: 980px){
   /* Left-hand sticky sidebar layout */
   .post-grid{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start;width:100%}
-  .post-toc-sidebar{grid-column:1;width:220px}
+  .post-toc-sidebar{grid-column:1}
   .post-content{grid-column:2}
   .post-toc-sidebar{position:relative}
   /* The JS sets a computed top value based on header height; fallback top used here */
@@ -139,30 +139,6 @@ pre { padding: 8px 12px; overflow-x:auto; border-radius:6px }
   /* When the sidebar is present, hide the inline header TOC to avoid duplicate UI */
   .post-header > #post-toc{display:none}
 }
-
-/* Improve left sidebar appearance */
-.post-toc-sidebar{padding-top:8px}
-.post-toc{padding:12px;box-shadow:none;border-radius:8px}
-.post-toc .post-toc-list{margin-top:6px}
-
-/* Make H1 entries compact and clamp to a few lines so the left column doesn't show large stacked text */
-.post-toc-list li.toc-level-1 a{
-  font-size:0.98rem;
-  font-weight:700;
-  line-height:1.15;
-  display:-webkit-box;
-  -webkit-line-clamp:3; /* limit to 3 lines */
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* Ensure the sidebar starts at the top of the article (avoid vertical centering) */
-.post-toc-sidebar{align-self:start}
-
-/* Slight visual separation from main content */
-.post-toc-sidebar .post-toc{background:transparent;border:none}
-.post-toc-sidebar .post-toc .toc-header{color:var(--muted);padding-bottom:6px}
 
 /* Active link style for scrollspy */
 .post-toc-list a.active{color:var(--accent);font-weight:600}
