@@ -3,12 +3,12 @@ layout: default
 ---
 
 <style>
-    /* Global Styles */
+    /* Global Styles (theme-aware) */
     body {
         font-family: 'Inter', sans-serif;
-        background-color: #f8f9fa;
-        color: #333;
-        transition: background-color 0.3s, color 0.3s;
+        background: var(--bg, #f8f9fa);
+        color: var(--text, #222);
+        transition: background 0.3s, color 0.3s;
         margin: 0;
         padding: 0;
     }
@@ -65,10 +65,10 @@ layout: default
     }
 
     .post-list-item {
-        background: #ffffff;
+        background: var(--card-bg, #ffffff);
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06);
         margin-bottom: 20px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-align: left;
@@ -84,7 +84,7 @@ layout: default
         font-size: 1.4rem;
         font-weight: bold;
         margin-bottom: 10px;
-        color: #222;
+        color: var(--text, #222);
     }
 
     .post-link {
@@ -100,13 +100,13 @@ layout: default
 
     .post-excerpt {
         font-size: 1rem;
-        color: #666;
+        color: var(--muted, #666);
         margin-bottom: 10px;
     }
 
     .post-meta {
         font-size: 0.9rem;
-        color: #888;
+        color: var(--muted, #888);
     }
 
     .archive-link {
