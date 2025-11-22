@@ -46,13 +46,25 @@ layout: default
 
     .post-list-item {
         background: var(--card-bg, #ffffff);
-        padding: 20px;
+        padding: 16px;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06);
         margin-bottom: 20px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-align: left;
         cursor: pointer; /* Indicate clickable */
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .post-thumb {
+        width: 140px;
+        height: 84px;
+        object-fit: cover;
+        border-radius: 8px;
+        flex: 0 0 140px;
+        background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.02));
     }
 
     .post-list-item:hover {
@@ -61,9 +73,9 @@ layout: default
     }
 
     .post-title {
-        font-size: 1.4rem;
-        font-weight: bold;
-        margin-bottom: 10px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 6px;
         color: var(--text, #222);
     }
 
@@ -114,16 +126,29 @@ layout: default
         Feel free to hit me up to discuss anything regarding my work.
     </p>
     <ul class="post-list">
-        {% for post in site.posts %}
-        <li class="post-list-item" onclick="window.location='{{ post.url }}'">
-            <div class="post-title">{{ post.title }}</div>
-            <div class="post-excerpt">{{ post.excerpt }}</div>
-            <div class="post-meta">
-                <span class="post-date">📅 {{ post.date | date: "%B %d, %Y" }}</span> | ⏳ {{ post.timetoread }} min
-                read | ✍️ Purusharth Malik
-            </div>
-        </li>
-        {% endfor %}
+                {% for post in site.posts %}
+                <li class="post-list-item" onclick="window.location='{{ post.url }}'">
+                        {% if post.image %}
+                        <img class="post-thumb" src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}">
+                        {% else %}
+                        <!-- Try front-matter 'thumbnail' or fall back to first image in the content (not always available) -->
+                        {% if post.thumbnail %}
+                        <img class="post-thumb" src="{{ post.thumbnail | relative_url }}" alt="{{ post.title | escape }}">
+                        {% else %}
+                        <div class="post-thumb" aria-hidden="true"></div>
+                        {% endif %}
+                        {% endif %}
+
+                        <div style="flex:1">
+                            <div class="post-title">{{ post.title }}</div>
+                            <div class="post-excerpt">{{ post.excerpt }}</div>
+                            <div class="post-meta">
+                                <span class="post-date">📅 {{ post.date | date: "%B %d, %Y" }}</span> | ⏳ {{ post.timetoread }} min
+                                read | ✍️ Purusharth Malik
+                            </div>
+                        </div>
+                </li>
+                {% endfor %}
     </ul>
     <div class="archive-link">
         <a href="/archive/">All posts...</a>

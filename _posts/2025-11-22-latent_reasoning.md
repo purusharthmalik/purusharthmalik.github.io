@@ -2,6 +2,7 @@
 layout: post
 title:  "Is Latent Reasoning The Future?"
 date:   2025-11-21 08:19:56 +0530
+image: "{{ site.baseurl }}/assets/latent1.png"
 categories: LLM
 timetoread: 20
 ---
