@@ -13,10 +13,10 @@ permalink: /archive/
   }
 
   .post-list-item {
-    background: #ffffff;
+    background: var(--card-bg, #ffffff);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06);
     margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: left;
@@ -31,7 +31,7 @@ permalink: /archive/
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #222;
+    color: var(--text, #222);
   }
 
   .post-link {
@@ -45,13 +45,13 @@ permalink: /archive/
 
   .post-excerpt {
     font-size: 1rem;
-    color: #666;
+    color: var(--muted, #666);
     margin-bottom: 10px;
   }
 
   .post-meta {
     font-size: 0.9rem;
-    color: #888;
+    color: var(--muted, #888);
   }
   
 </style>
