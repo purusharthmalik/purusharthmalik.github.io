@@ -37,6 +37,22 @@ body{
 
 /* Header */
 .site-header{position:sticky;top:0;z-index:40;background:var(--header-bg);backdrop-filter:blur(6px);border-bottom:1px solid var(--border)}
+.site-header{border-top:0 !important}
+
+/* Ensure header title and nav respect theme colors and override minima defaults */
+.site-header .site-title,
+.site-header .site-title:visited {
+  color: var(--text) !important;
+}
+
+.site-header .site-nav .page-link {
+  color: var(--muted) !important;
+}
+
+/* Make the menu icon visible color-adaptive on mobile */
+.site-header .menu-icon > svg {
+  fill: var(--muted) !important;
+}
 .site-header .wrapper{display:flex;align-items:center;gap:1rem}
 .site-title{font-weight:600;font-size:1.05rem;color:var(--text);text-decoration:none}
 
