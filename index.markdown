@@ -31,29 +31,31 @@ layout: default
     h1 {
         font-size: 2rem;
         font-weight: 700;
-        color: #222;
+        color: var(--text, #222);
         margin: 0;
     }
 
-    /* Dark Mode Toggle Button */
+    /* Dark Mode Toggle Button (uses site data-theme attribute)
+       If you have an inline toggle with id `darkModeToggle`, this
+       will adapt to the site's theme state. */
     #darkModeToggle {
         background: none;
         border: none;
         font-size: 1.5rem;
         cursor: pointer;
         transition: color 0.3s;
-        color: white;
+        color: var(--muted, #fff);
     }
 
     #darkModeToggle .sun {
         display: none;
     }
 
-    .dark-mode #darkModeToggle .sun {
+    :root[data-theme='dark'] #darkModeToggle .sun {
         display: inline;
     }
 
-    .dark-mode #darkModeToggle .moon {
+    :root[data-theme='dark'] #darkModeToggle .moon {
         display: none;
     }
 
@@ -147,6 +149,15 @@ layout: default
     </ul>
     <div class="archive-link">
         <a href="/archive/">All posts...</a>
+    </div>
+    
+    <!-- Resume section: place a PDF at /assets/resume.pdf to render here -->
+    <div class="resume-section" style="margin-top:28px;text-align:left;">
+        <h2 style="margin-bottom:0.5rem;color:var(--text, #222);">Resume</h2>
+        <p style="color:var(--muted,#666);margin-top:0;">View or download my resume below.</p>
+        <object data="{{ '/assets/resume.pdf' | relative_url }}" type="application/pdf" width="100%" height="600">
+            <p>Resume PDF not found. <a href="{{ '/assets/resume.pdf' | relative_url }}">Download resume</a>.</p>
+        </object>
     </div>
     <!-- <div style="margin-top: 20px; text-align: center;">
         <p>Page Views:</p>

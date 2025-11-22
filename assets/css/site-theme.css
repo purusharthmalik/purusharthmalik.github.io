@@ -36,13 +36,27 @@ body{
 .wrapper{max-width:var(--max-width);margin:0 auto;padding:1.25rem;}
 
 /* Header */
-.site-header{position:sticky;top:0;z-index:40;background:var(--header-bg);backdrop-filter:blur(6px);border-bottom:1px solid var(--border)}
-.site-header{border-top:0 !important}
+/* Header: make sure minima floats/borders don't interfere with our layout */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:var(--header-bg);
+  backdrop-filter:blur(6px);
+  border-bottom:0 !important; /* remove thin line that can cross content */
+  border-top:0 !important;
+  padding:0.6rem 0; /* ensure content sits clear of any borders */
+}
 
 /* Ensure header title and nav respect theme colors and override minima defaults */
 .site-header .site-title,
 .site-header .site-title:visited {
   color: var(--text) !important;
+  float: none !important; /* override minima float which can cause vertical overlap */
+  display: inline-block; 
+  line-height: 1; /* keep title vertically centered within header */
+  margin: 0; 
+  padding: 0.05rem 0;
 }
 
 .site-header .site-nav .page-link {
