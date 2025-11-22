@@ -88,22 +88,20 @@ document.addEventListener('DOMContentLoaded', function () {
           if (!sidebar.contains(tocContainer)) sidebar.appendChild(tocContainer);
           sidebar.setAttribute('aria-hidden', 'false');
           tocContainer.style.display = '';
-          // compute header height and set sticky top so the TOC will actually stick below the header
+          // compute header height and set CSS variable so the TOC will stick below the header
           var headerEl = document.querySelector('.site-header');
           var headerHeight = headerEl ? Math.ceil(headerEl.getBoundingClientRect().height) : 72;
           // Add a small gap
           var topOffset = headerHeight + 12;
-          // Apply as inline style so layout is precise even if header size varies
-          tocContainer.style.position = 'sticky';
-          tocContainer.style.top = topOffset + 'px';
+          // Set a CSS variable instead of inline position/top to avoid layout inconsistencies
+          document.documentElement.style.setProperty('--toc-top', topOffset + 'px');
         } else {
         // move toc back into header (as fallback)
         var header = document.querySelector('.post-header');
         if (header && !header.contains(tocContainer)) header.insertBefore(tocContainer, header.querySelector('.post-meta').nextSibling);
         if (sidebar) sidebar.setAttribute('aria-hidden', 'true');
-          // remove inline sticky styles when returning to inline mode
-          tocContainer.style.position = '';
-          tocContainer.style.top = '';
+          // remove the CSS variable when returning to inline mode
+          document.documentElement.style.removeProperty('--toc-top');
       }
     }
     layoutTOC();

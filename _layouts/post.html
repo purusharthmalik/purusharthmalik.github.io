@@ -21,12 +21,12 @@ layout: default
   </header>
 
   <div class="post-grid">
+    <!-- Sidebar container for TOC on wider screens; JS will move the TOC element here when appropriate -->
+    <aside id="post-toc-sidebar" class="post-toc-sidebar" aria-hidden="true"></aside>
+
     <div class="post-content e-content" itemprop="articleBody">
       {{ content }}
     </div>
-
-    <!-- Sidebar container for TOC on wider screens; JS will move the TOC element here when appropriate -->
-    <aside id="post-toc-sidebar" class="post-toc-sidebar" aria-hidden="true"></aside>
   </div>
 
   {%- if site.disqus.shortname -%}
