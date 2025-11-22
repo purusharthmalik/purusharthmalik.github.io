@@ -10,17 +10,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- seo -%}
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#07101a">
 
   <script>
     (function(){
       try{
         var theme = localStorage.getItem('theme');
         if(!theme){
-          var mq = window.matchMedia('(prefers-color-scheme: dark)');
-          theme = mq.matches ? 'dark' : 'light';
+          // Default to dark mode unless user has an explicit stored preference
+          theme = 'dark';
         }
         document.documentElement.setAttribute('data-theme', theme);
+        // Update meta theme-color immediately to match chosen theme
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if(meta){
+          meta.setAttribute('content', theme === 'dark' ? '#07101a' : '#ffffff');
+        }
       }catch(e){}
     })();
   </script>
