@@ -127,12 +127,15 @@ pre { padding: 8px 12px; overflow-x:auto; border-radius:6px }
 .post-toc[hidden]{display:none}
 
 /* Sticky sidebar layout for post pages */
+
 @media (min-width: 980px){
-  .post-grid{display:grid;grid-template-columns:1fr 260px;gap:2rem;align-items:start}
-  .post-content{grid-column:1}
-  .post-toc-sidebar{grid-column:2}
+  /* Left-hand sticky sidebar layout */
+  .post-grid{display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start}
+  .post-toc-sidebar{grid-column:1}
+  .post-content{grid-column:2}
   .post-toc-sidebar{position:relative}
-  .post-toc-sidebar .post-toc{position:sticky;top:82px;margin:0}
+  /* The JS sets a computed top value based on header height; fallback top used here */
+  .post-toc-sidebar .post-toc{position:sticky;top:72px;margin:0}
   /* When the sidebar is present, hide the inline header TOC to avoid duplicate UI */
   .post-header > #post-toc{display:none}
 }
