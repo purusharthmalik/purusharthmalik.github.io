@@ -10,7 +10,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- seo -%}
+  <meta name="theme-color" content="#ffffff">
+
+  <script>
+    (function(){
+      try{
+        var theme = localStorage.getItem('theme');
+        if(!theme){
+          var mq = window.matchMedia('(prefers-color-scheme: dark)');
+          theme = mq.matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      }catch(e){}
+    })();
+  </script>
+
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/site-theme.css" | relative_url }}">
+  <script src="{{ "/assets/js/dark-toggle.js" | relative_url }}" defer></script>
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
