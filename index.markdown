@@ -129,14 +129,7 @@ layout: default
         <a href="/archive/">All posts...</a>
     </div>
     
-    <!-- Resume section: place a PDF at /assets/resume.pdf to render here -->
-    <div class="resume-section" style="margin-top:28px;text-align:left;">
-        <h2 style="margin-bottom:0.5rem;color:var(--text, #222);">Resume</h2>
-        <p style="color:var(--muted,#666);margin-top:0;">View or download my resume below.</p>
-        <object data="{{ '/assets/resume.pdf' | relative_url }}" type="application/pdf" width="100%" height="600">
-            <p>Resume PDF not found. <a href="{{ '/assets/resume.pdf' | relative_url }}">Download resume</a>.</p>
-        </object>
-    </div>
+    <!-- resume removed: resume is now on its own page at /resume/ -->
     <!-- <div style="margin-top: 20px; text-align: center;">
         <p>Page Views:</p>
         <img src="https://visitor-badge.glitch.me/badge?page_id=purusharthmalik.github.io" alt="Visitor Count">
