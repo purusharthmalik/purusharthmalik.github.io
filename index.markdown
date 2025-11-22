@@ -35,29 +35,7 @@ layout: default
         margin: 0;
     }
 
-    /* Dark Mode Toggle Button (uses site data-theme attribute)
-       If you have an inline toggle with id `darkModeToggle`, this
-       will adapt to the site's theme state. */
-    #darkModeToggle {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: color 0.3s;
-        color: var(--muted, #fff);
-    }
-
-    #darkModeToggle .sun {
-        display: none;
-    }
-
-    :root[data-theme='dark'] #darkModeToggle .sun {
-        display: inline;
-    }
-
-    :root[data-theme='dark'] #darkModeToggle .moon {
-        display: none;
-    }
+    /* Dark mode is controlled by the site header toggle (no inline toggle needed) */
 
     /* Blog Post List */
     .post-list {
