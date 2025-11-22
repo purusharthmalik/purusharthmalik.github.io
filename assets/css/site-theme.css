@@ -125,3 +125,23 @@ pre { padding: 8px 12px; overflow-x:auto; border-radius:6px }
 .post-toc-sublist{list-style:none;margin:0.15rem 0 0 0.6rem;padding:0}
 .toc-level-3 a{font-size:0.9rem}
 .post-toc[hidden]{display:none}
+
+/* Sticky sidebar layout for post pages */
+@media (min-width: 980px){
+  .post-grid{display:grid;grid-template-columns:1fr 260px;gap:2rem;align-items:start}
+  .post-content{grid-column:1}
+  .post-toc-sidebar{grid-column:2}
+  .post-toc-sidebar{position:relative}
+  .post-toc-sidebar .post-toc{position:sticky;top:82px;margin:0}
+  /* When the sidebar is present, hide the inline header TOC to avoid duplicate UI */
+  .post-header > #post-toc{display:none}
+}
+
+/* Active link style for scrollspy */
+.post-toc-list a.active{color:var(--accent);font-weight:600}
+
+/* Small responsive tweak: keep TOC readable */
+@media (max-width: 479px){
+  .post-toc .toc-header{font-size:0.95rem}
+  .post-toc-list a{font-size:0.95rem}
+}

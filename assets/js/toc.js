@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var content = document.querySelector('.post-content');
     if (!content) return;
 
-    // Select headings to include in TOC. Exclude the H1 (post title).
-    var headings = content.querySelectorAll('h2, h3');
+    // Include h1/h2/h3 from the post content
+    var headings = content.querySelectorAll('h1, h2, h3');
     if (!headings || headings.length === 0) return;
 
     function slugify(text) {
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var ul = document.createElement('ul');
     ul.className = 'post-toc-list';
 
+    var currentLiForH1 = null;
     var currentLiForH2 = null;
 
     headings.forEach(function (h) {
@@ -31,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
         h.id = slugify(text);
       }
       var li = document.createElement('li');
-      li.className = level === 'h2' ? 'toc-level-2' : 'toc-level-3';
+      li.className = level === 'h1' ? 'toc-level-1' : (level === 'h2' ? 'toc-level-2' : 'toc-level-3');
       var a = document.createElement('a');
       a.href = '#' + h.id;
       a.textContent = text;
+      a.dataset.targetId = h.id;
       a.addEventListener('click', function (e) {
-        // smooth scroll
         e.preventDefault();
         var target = document.getElementById(h.id);
         if (target) {
@@ -47,21 +48,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
       li.appendChild(a);
 
-      if (level === 'h2') {
+      if (level === 'h1') {
         ul.appendChild(li);
+        currentLiForH1 = li;
+        currentLiForH2 = null;
+      } else if (level === 'h2') {
+        if (currentLiForH1) {
+          var sub1 = currentLiForH1.querySelector('ul');
+          if (!sub1) { sub1 = document.createElement('ul'); sub1.className = 'post-toc-sublist'; currentLiForH1.appendChild(sub1); }
+          sub1.appendChild(li);
+        } else {
+          ul.appendChild(li);
+        }
         currentLiForH2 = li;
       } else if (level === 'h3') {
-        // nest under last H2 if exists
-        if (!currentLiForH2) {
-          ul.appendChild(li);
+        if (currentLiForH2) {
+          var sub2 = currentLiForH2.querySelector('ul');
+          if (!sub2) { sub2 = document.createElement('ul'); sub2.className = 'post-toc-sublist'; currentLiForH2.appendChild(sub2); }
+          sub2.appendChild(li);
+        } else if (currentLiForH1) {
+          var subFallback = currentLiForH1.querySelector('ul');
+          if (!subFallback) { subFallback = document.createElement('ul'); subFallback.className = 'post-toc-sublist'; currentLiForH1.appendChild(subFallback); }
+          subFallback.appendChild(li);
         } else {
-          var sub = currentLiForH2.querySelector('ul');
-          if (!sub) {
-            sub = document.createElement('ul');
-            sub.className = 'post-toc-sublist';
-            currentLiForH2.appendChild(sub);
-          }
-          sub.appendChild(li);
+          ul.appendChild(li);
         }
       }
     });
@@ -69,7 +79,26 @@ document.addEventListener('DOMContentLoaded', function () {
     listContainer.appendChild(ul);
     tocContainer.hidden = false;
 
-    // Toggle collapse behavior
+    // Move TOC into sidebar on wide screens
+    var sidebar = document.getElementById('post-toc-sidebar');
+    function layoutTOC() {
+      var wide = window.innerWidth >= 980;
+      if (wide && sidebar) {
+        // move toc into sidebar
+        if (!sidebar.contains(tocContainer)) sidebar.appendChild(tocContainer);
+        sidebar.setAttribute('aria-hidden', 'false');
+        tocContainer.style.display = '';
+      } else {
+        // move toc back into header (as fallback)
+        var header = document.querySelector('.post-header');
+        if (header && !header.contains(tocContainer)) header.insertBefore(tocContainer, header.querySelector('.post-meta').nextSibling);
+        if (sidebar) sidebar.setAttribute('aria-hidden', 'true');
+      }
+    }
+    layoutTOC();
+    window.addEventListener('resize', function () { layoutTOC(); });
+
+    // Toggle collapse behavior for the TOC
     var toggle = tocContainer.querySelector('.toc-toggle');
     var listEl = listContainer;
     if (toggle) {
@@ -83,6 +112,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     }
+
+    // Scrollspy: highlight active section using IntersectionObserver
+    var anchors = tocContainer.querySelectorAll('.post-toc-list a');
+    var idToAnchor = {};
+    anchors.forEach(function (a) { idToAnchor[a.dataset.targetId] = a; });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var id = entry.target.id;
+        var anchor = idToAnchor[id];
+        if (!anchor) return;
+        if (entry.isIntersecting) {
+          // remove active from all
+          anchors.forEach(function (aa) { aa.classList.remove('active'); });
+          anchor.classList.add('active');
+        }
+      });
+    }, { root: null, rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+
+    // observe each heading
+    headings.forEach(function (h) { observer.observe(h); });
+
   } catch (e) {
     console.warn('TOC generation failed', e);
   }
