@@ -23,10 +23,15 @@
         </label>
 
         <div class="trigger">
+          {%- assign __printed_urls = "" -%}
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title -%}
-            <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+              {%- assign __url = my_page.url | relative_url -%}
+              {%- unless __printed_urls contains __url -%}
+                <a class="page-link" href="{{ __url }}">{{ my_page.title | escape }}</a>
+                {%- assign __printed_urls = __printed_urls | append: __url | append: '|' -%}
+              {%- endunless -%}
             {%- endif -%}
           {%- endfor -%}
         </div>
