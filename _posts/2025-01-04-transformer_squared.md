@@ -67,17 +67,17 @@ The only drawback of this approach is that when we train only the top-k singular
 
 Loading the model,
 
-```py
+<!-- ```py -->
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 name = "Qwen/Qwen2.5-1.5B-Instruct"
 model = AutoModelForCausalLM.from_pretrained(name)
 tokenizer = AutoTokenizer.from_pretrained(name)
-```
+<!-- ``` -->
 
 Looking at the number of trainable parameters when using LoRA,
 
-```py
+<!-- ```py -->
 from peft import LoraConfig, peft_model
 
 lora_config = LoraConfig(
@@ -90,19 +90,19 @@ lora_config = LoraConfig(
 
 lora_model = peft_model.get_peft_model(model, lora_config)
 lora_model.print_trainable_parameters()
-```
+<!-- ``` -->
 <p>
     <img src="{{ site.baseurl }}/assets/params.png">
 </p>
 Looking at the number of trainable parameters when using SVD (Updating all the 3 matrices — U, V, and Σ),
 
-```py
+<!-- ```py -->
 # SVD
 from svd_training.svd_model import SVDForCausalLM
   
 svd_model = SVDForCausalLM.create_from_model(model, rank_fraction=0.1)
 print(f"trainable params: {svd_model.num_parameters(only_trainable=True)} || all params: {svd_model.num_parameters()} || trainable%: {svd_model.num_parameters(only_trainable=True) / svd_model.num_parameters()}")
-```
+<!-- ``` -->
 <p>
     <img src="{{ site.baseurl }}/assets/params_svf.png">
 </p>
@@ -110,7 +110,7 @@ Clearly, the number of trainable parameters is more when using SVD based fine-tu
 
 Following is what the model looks like after appplying SVD decomposition,
 
-```
+<!-- ``` -->
 Qwen2ForCausalLM(
   (model): Qwen2Model(
     (embed_tokens): Embedding(151936, 1536)
@@ -137,7 +137,7 @@ Qwen2ForCausalLM(
   )
   (lm_head): SVDLinear()
 )
-```
+<!-- ``` -->
 
 Let us do some computation. There are 28 decoder layers and every decoder layer has 7 SVD linear layers. In addition, there is a model head that has also been converted to an SVD Linear layer. Therefore, we have,
 
