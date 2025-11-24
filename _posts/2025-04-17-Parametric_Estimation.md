@@ -4,6 +4,7 @@ title:  "The Biggest Enemy of Generative Modeling"
 date:   2025-04-17 18:19:56 +0530
 categories: Generative-Modeling
 timetoread: 14
+image: assets/vae.png
 ---
 “Ever heard your grandma talk about generative models?” — WHAT A STUPID QUESTION, RIGHT? Well, as it turns out, **it is not a stupid question**. The idea of generative models can be dated as far back as 1763 when **Thomas Bayes gave the world the “Bayesian Inference”**. However, this explanation only works for those of you who look at generative modeling as a task in Bayesian statistics. 
 
