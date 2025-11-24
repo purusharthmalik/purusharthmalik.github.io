@@ -121,6 +121,10 @@ layout: default
         margin-bottom: 10px;
     }
 
+    .post-excerpt img {
+        display: none;
+    }
+
     .post-meta {
         font-size: 0.9rem;
         color: var(--muted, #888);
