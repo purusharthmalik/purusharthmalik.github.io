@@ -20,11 +20,53 @@ permalink: /archive/
     margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .post-list-item {
+        flex-direction: row;
+        align-items: start;
+    }
   }
 
   .post-list-item:hover {
     transform: translateY(-5px);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .post-image {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 250px;
+    height: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .post-list-item:hover .post-image img {
+    transform: scale(1.05);
+  }
+
+  .post-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .post-excerpt img {
+      display: none;
   }
 
   .post-title {
@@ -58,13 +100,18 @@ permalink: /archive/
 
 <ul class="post-list">
     {% for post in site.posts %}
-      <li class="post-list-item">
-        <a href="{{ post.url }}" class="post-link">
-          <div class="post-title">{{ post.title }}</div>
-        </a>
-        <div class="post-excerpt">{{ post.excerpt }}</div>
-        <div class="post-meta">
-          <span class="post-date">📅 {{ post.date | date: "%B %d, %Y" }}</span> | ⏳ {{ post.timetoread }} min read | ✍️ Purusharth Malik
+      <li class="post-list-item" onclick="window.location='{{ post.url }}'">
+        {% if post.image %}
+        <div class="post-image">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+        </div>
+        {% endif %}
+        <div class="post-content">
+            <div class="post-title">{{ post.title }}</div>
+            <div class="post-excerpt">{{ post.excerpt }}</div>
+            <div class="post-meta">
+              <span class="post-date">📅 {{ post.date | date: "%B %d, %Y" }}</span> | ⏳ {{ post.timetoread }} min read | ✍️ Purusharth Malik
+            </div>
         </div>
       </li>
     {% endfor %}
