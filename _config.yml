@@ -1,57 +1,38 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-
-title: Puru-Logs🫶
+title: Purusharth Malik
+author: Purusharth Malik
+tagline: Efficient RL and diffusion language models
 email: purusharth19malik@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  I write about any rabbit hole that I go into twice a month.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-linkedin_username: purusharth-malik-33a31616b
-github_username:  purusharthmalik
+description: >-
+  Research engineer working on scalable, efficient reinforcement learning for
+  autoregressive and diffusion language models. I write about whatever rabbit hole I fall
+  into twice a month.
+url: "https://purusharthmalik.github.io"
+baseurl: ""
+lang: en
+
+links:
+  scholar: https://scholar.google.com/citations?user=TTK9ZTkAAAAJ&hl=en
+  github: https://github.com/purusharthmalik
+  linkedin: https://www.linkedin.com/in/purusharth-malik-33a31616b/
+  medium: https://medium.com/@purusharth.19.malik
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
 mathjax: true
-include: 
-  - assets
-theme: minima
 plugins:
-  - jekyll-feed
+  - jekyll-seo-tag
 google_analytics: G-DCRJQXXBZP
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+
+# Keep the original post URLs (/:categories/:year/:month/:day/:title.html)
+permalink: date
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor/
+  - .jekyll-cache/

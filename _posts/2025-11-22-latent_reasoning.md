@@ -5,6 +5,9 @@ date:   2025-11-21 08:19:56 +0530
 categories: LLM
 timetoread: 20
 image: assets/latent1.png
+topic: reasoning
+medium: https://aiadvances.org/is-latent-reasoning-the-future-78f187efe5cc
+description: "Hierarchical and tiny recursive models reason in latent space instead of tokens. Is that where reasoning goes next?"
 ---
 
 **TL;DR — Recent work on Hierarchical and Tiny Recursive Models (HRM/TRM) shows that strong reasoning does not require massive autoregressive LLMs. Instead of forcing every intermediate thought back into discrete tokens — a lossy bottleneck that compounds mistakes — recursive latent-state models refine their internal representations over multiple steps, repairing errors rather than propagating them. Across cognitive science, neuroscience, and modern benchmarks, the evidence points in the same direction: effective reasoning emerges from iterative internal computation, not from scaling next-token prediction indefinitely. HRM and TRM aren’t the final answer, but they mark a meaningful shift — proof that new architectures, inspired as much by biological dynamics as by machine learning tradition, may carry us further than size alone ever will.**

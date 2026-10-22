@@ -5,6 +5,9 @@ date:   2025-03-05 18:19:56 +0530
 categories: Interpretable
 timetoread: 16
 image: assets/toaster.png
+topic: interpretability
+medium: https://aiadvances.org/is-your-llm-playing-along-with-your-guardrails-d98eb30e2d6c
+description: "Alignment faking: when a model behaves well only because it believes it is being watched."
 ---
 In his book “What Color is a Conservative?” J.C Watts says — “Character is doing the right thing when nobody’s looking.” Today, we will try to figure out whether your LLMs have a character or if they are just faking it. One of the most pressing concerns regarding the safe usage of LLMs is their tendency to do alignment faking.
 

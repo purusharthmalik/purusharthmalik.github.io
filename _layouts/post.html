@@ -1,37 +1,49 @@
 ---
 layout: default
+body_class: post-page
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
-      </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
-    <!-- Inline TOC (fallback for narrow screens). JS may move this into the sidebar on wide screens -->
-    <div id="post-toc" class="post-toc" aria-label="Table of contents" hidden>
-      <div class="toc-header"><strong>Contents</strong> <button class="toc-toggle" aria-expanded="true">▾</button></div>
-      <nav class="toc-list-container"></nav>
-    </div>
+<div class="read-progress" aria-hidden="true"><span></span></div>
+<article class="essay" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="essay-head">
+    <p class="essay-meta">
+      <span class="topic-dot" data-topic="{{ page.topic }}"></span>
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %B %Y" }}</time>
+      {%- if page.timetoread %}<span class="sep" aria-hidden="true">/</span>{{ page.timetoread }} min read{% endif %}
+    </p>
+    <h1 class="essay-title" itemprop="headline">{{ page.title | escape }}</h1>
+    {%- if page.description %}<p class="essay-dek">{{ page.description }}</p>{% endif %}
   </header>
 
-  <div class="post-grid">
-    <!-- Sidebar container for TOC on wider screens; JS will move the TOC element here when appropriate -->
-    <aside id="post-toc-sidebar" class="post-toc-sidebar" aria-hidden="true"></aside>
-
-    <div class="post-content e-content" itemprop="articleBody">
+  <div class="essay-grid">
+    <aside class="essay-toc" hidden>
+      <p class="essay-toc-label">On this page</p>
+      <nav aria-label="Table of contents"><ol></ol></nav>
+    </aside>
+    <div class="prose" itemprop="articleBody">
       {{ content }}
     </div>
   </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
-
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <footer class="essay-foot">
+    {%- if page.medium %}
+    <p>Also published <a href="{{ page.medium }}">on Medium</a>, where you can leave a response.</p>
+    {%- endif %}
+    <nav class="essay-pager" aria-label="More posts">
+      {%- if page.previous %}
+      <a class="pager-prev" href="{{ page.previous.external_url | default: page.previous.url | relative_url }}"><span>Older</span>{{ page.previous.title }}</a>
+      {%- endif %}
+      {%- if page.next %}
+      <a class="pager-next" href="{{ page.next.external_url | default: page.next.url | relative_url }}"><span>Newer</span>{{ page.next.title }}</a>
+      {%- endif %}
+    </nav>
+  </footer>
 </article>
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js" async></script>
+<script src="{{ '/assets/js/post.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

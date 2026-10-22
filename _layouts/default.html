@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    {% include head-custom-google-analytics.html %}
-    {%- include head.html -%}
-  </head>
-
-  <body>
-    {%- include header.html -%}
-
-    <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
-    </main>
-
-    {%- include footer.html -%}
-  </body>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+  {%- include head.html -%}
+  {%- for s in page.scripts %}
+  <script src="{{ s | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+  {%- endfor %}
+</head>
+<body class="{{ page.body_class | default: 'page' }}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {%- include header.html -%}
+  <main id="main">
+    {{ content }}
+  </main>
+  {%- include footer.html -%}
+</body>
 </html>

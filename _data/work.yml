@@ -1,0 +1,68 @@
+# Checkpoints on the "training run" in the Work section, oldest first.
+# `start` is a decimal year (2024.37 is roughly mid-May 2024); it places the
+# checkpoint on the x-axis. The curve's height is drawn from the order alone.
+- org: University of Delhi
+  role: BSc (Hons) Mathematics
+  when: 2019 – 2022
+  start: 2019.6
+  kind: study
+  notes:
+    - Graduated 8.27 / 10.
+- org: CHRIST University, Bangalore
+  role: MSc, Artificial Intelligence & Machine Learning
+  when: 2023 – 2025
+  start: 2023.5
+  kind: study
+  notes:
+    - Graduated 3.92 / 4.0.
+    - Built Swin-VQA, a visual question answering system for radiology using CLIP and a fine-tuned Llama-2.
+- org: Iolite Technologies
+  role: LLM engineer
+  when: May – Aug 2024
+  start: 2024.37
+  kind: work
+  notes:
+    - Built an LLM chatbot over the university's ERP system.
+    - Quantised and fine-tuned several pretrained LLMs with LoRA.
+- org: NayaOne
+  role: Data scientist (remote, London)
+  when: Aug – Oct 2024
+  start: 2024.6
+  kind: work
+  notes:
+    - Built multi-agent systems for fintech trend analysis.
+    - Automated work for the sales and marketing teams.
+- org: SMOOR Chocolates
+  role: Machine learning engineer
+  when: Oct 2024 – Jan 2025
+  start: 2024.78
+  kind: work
+  notes:
+    - Automated inventory management across India with the finance team.
+    - Built an agentic pipeline for customer service.
+- org: Metrum AI
+  role: Software engineer, AI
+  when: Feb – May 2025
+  start: 2025.1
+  kind: work
+  notes:
+    - Built GPU-accelerated benchmarking applications with AMD and Dell.
+    - Served LLMs with vLLM and SGLang for a 3.5× gain in queries per second under peak load.
+    - Built digital avatar plug-ins on Stable Diffusion and custom latent-space models.
+- org: Swiggy
+  role: AI engineer
+  when: Jun 2025 – 2026
+  start: 2025.45
+  kind: work
+  notes:
+    - Cut latency and raised response quality of agentic LLM workflows in production.
+    - Built an evaluation framework for customer-facing LLMs using RLHF and RAG metrics.
+    - Used DSPy to optimise prompts and composition of multi-turn agents.
+# CONFIRM: role title and start date below are not on the resume yet.
+- org: Conscious Engines
+  role: Research engineer
+  when: 2026 – now
+  start: 2026.3
+  kind: work
+  notes:
+    - Scalable, efficient reinforcement learning for both autoregressive and diffusion language models.

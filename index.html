@@ -1,0 +1,140 @@
+---
+layout: default
+body_class: home
+scripts:
+  - /assets/js/covers.js
+  - /assets/js/post-map.js
+  - /assets/js/training-run.js
+---
+{%- assign topics = "interpretability|Interpretability & safety,reasoning|Reasoning,models|Models & adaptation,generative|Generative modelling,systems|Systems & serving" | split: "," -%}
+
+<section class="hero" aria-labelledby="hero-line">
+  <div class="hero-text">
+    <h1 id="hero-line" class="hero-line">Currently tinkering with efficient RL and diffusion language models.</h1>
+    <p class="hero-bio">
+      Research engineer at <a href="https://consciousengines.com">Conscious Engines</a> in Bengaluru, where I work on
+      reinforcement learning for both autoregressive and diffusion language models. Before this I shipped LLM systems at Swiggy and
+      Metrum AI, after studying mathematics at the University of Delhi and AI at CHRIST University.
+    </p>
+    <ul class="link-row">
+      <li><a href="{{ site.links.scholar }}">Google Scholar</a></li>
+      <li><a href="{{ site.links.github }}">GitHub</a></li>
+      <li><a href="{{ site.links.linkedin }}">LinkedIn</a></li>
+      <li><a href="{{ site.links.medium }}">Medium</a></li>
+      <li><a href="{{ '/resume/' | relative_url }}">Resume</a></li>
+      <li><a href="mailto:{{ site.email }}">Email</a></li>
+    </ul>
+  </div>
+
+  <figure class="covers" data-covers data-base="{{ '/assets/albums/' | relative_url }}" aria-labelledby="covers-h">
+    <div class="covers-bar">
+      <h2 id="covers-h" class="covers-h">My playlist, as CLIP sees it</h2>
+      <div class="covers-tools">
+        <div class="seg" role="group" aria-label="View">
+          <button type="button" data-view="map" aria-pressed="true">Map</button>
+          <button type="button" data-view="matrix" aria-pressed="false">Matrix</button>
+        </div>
+        <button type="button" class="covers-shuffle" data-shuffle>Draw ten more</button>
+      </div>
+    </div>
+    <div class="covers-body">
+      <div class="covers-stage">
+        <svg class="covers-edges" aria-hidden="true"></svg>
+      </div>
+      <div class="covers-matrix" aria-hidden="true"></div>
+    </div>
+    <figcaption class="covers-panel" aria-live="polite"></figcaption>
+  </figure>
+  <script type="application/json" id="album-data">{{ site.data.albums | jsonify }}</script>
+</section>
+
+<section id="writing" class="band" aria-labelledby="writing-h">
+  <div class="band-head">
+    <h2 id="writing-h">Writing</h2>
+    <p>Long-form notes from whatever rabbit hole I fell into that month. Posts sit near each other on the map when they cover related ideas. Pick a topic to filter.</p>
+  </div>
+
+  <div class="writing">
+    <figure class="post-map" data-post-map>
+      <svg class="post-map-svg" role="img" aria-label="Posts plotted by topic"></svg>
+      <figcaption class="topic-keys" role="group" aria-label="Filter posts by topic">
+        {%- for t in topics -%}
+        {%- assign kv = t | split: "|" %}
+        <button type="button" class="topic-key" data-topic="{{ kv[0] }}" aria-pressed="false"><span class="topic-dot" data-topic="{{ kv[0] }}"></span>{{ kv[1] }}</button>
+        {%- endfor %}
+      </figcaption>
+    </figure>
+
+    <ol class="post-list" data-post-list>
+      {%- for post in site.posts %}
+      {%- assign href = post.external_url | default: post.url | relative_url %}
+      <li class="post-row" data-topic="{{ post.topic }}" data-slug="{{ post.id | slugify }}" data-minutes="{{ post.timetoread | default: 10 }}" data-title="{{ post.title | escape }}">
+        <a href="{{ href }}"{% if post.external_url %} rel="external"{% endif %}>
+          <span class="post-row-meta"><span class="topic-dot" data-topic="{{ post.topic }}"></span><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>{% if post.external_url %}<span class="sep" aria-hidden="true">/</span>on Medium{% elsif post.timetoread %}<span class="sep" aria-hidden="true">/</span>{{ post.timetoread }} min{% endif %}</span>
+          <span class="post-row-title">{{ post.title }}</span>
+          <span class="post-row-dek">{{ post.description }}</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section id="research" class="band" aria-labelledby="research-h">
+  <div class="band-head">
+    <h2 id="research-h">Research</h2>
+    <p>Reinforcement learning for language models: how to make it cheaper, and the odd ways it changes a model. Full list on <a href="{{ site.links.scholar }}">Google Scholar</a>.</p>
+  </div>
+
+  <article class="paper">
+    <p class="paper-venue">arXiv 2610.15371 <span class="sep" aria-hidden="true">/</span> October 2026 <span class="sep" aria-hidden="true">/</span> technical report</p>
+    <h3 class="paper-title"><a href="https://arxiv.org/abs/2610.15371">A Sovereign, Indic-First, Reasoning Model</a></h3>
+    <p class="paper-authors">S. S. Raj, P. Pasunuti, P. Chatterjee, D. Maan, <strong>P. Malik</strong>, N. Sarkar, A. Benki</p>
+    <p class="paper-summary">
+      Gnani-Evon-v3.3 is a 30B-parameter hybrid Mamba-Transformer mixture-of-experts model for reasoning and tool use
+      in English and eight Indian languages, built from NVIDIA's Nemotron-3-Nano. The central finding is a side effect of
+      reinforcement learning: rewards on verifiable tasks improved maths and science, but because they never checked the
+      answer language, the share of Indic questions answered in English rose from 8.7% to 91.7%.
+    </p>
+    <div class="paper-shift" aria-label="Indic extraction questions answered in English, before and after RL">
+      <div class="shift-row"><span>Before RL</span><span class="shift-bar"><span style="--v: 0.087"></span></span><span class="shift-num">8.7%</span></div>
+      <div class="shift-row"><span>After RL</span><span class="shift-bar"><span style="--v: 0.917"></span></span><span class="shift-num">91.7%</span></div>
+    </div>
+    <p class="paper-links"><a href="https://arxiv.org/abs/2610.15371">Abstract</a> <a href="https://arxiv.org/pdf/2610.15371">PDF</a></p>
+  </article>
+</section>
+
+<section id="work" class="band" aria-labelledby="work-h">
+  <div class="band-head">
+    <h2 id="work-h">Work</h2>
+    <p>Seven years plotted as a training run. Each checkpoint is a place I learned something. Select one to read the log.</p>
+  </div>
+
+  <div class="run" data-run>
+    <svg class="run-svg" role="img" aria-label="Career timeline drawn as a falling loss curve, 2019 to now"></svg>
+    <ol class="run-steps" role="tablist" aria-label="Checkpoints">
+      {%- for c in site.data.work %}
+      <li role="presentation">
+        <button type="button" role="tab" id="ck-{{ forloop.index }}" aria-controls="ck-panel" aria-selected="false" tabindex="-1"
+          data-start="{{ c.start }}" data-kind="{{ c.kind }}">
+          <span class="run-step-org">{{ c.org }}</span>
+          <span class="run-step-when">{{ c.when }}</span>
+        </button>
+      </li>
+      {%- endfor %}
+    </ol>
+    <div class="run-panel" id="ck-panel" role="tabpanel" tabindex="0">
+      {%- for c in site.data.work %}
+      <div class="run-log" data-for="ck-{{ forloop.index }}" hidden>
+        <h3>{{ c.role }}</h3>
+        <p class="run-log-org">{{ c.org }}, {{ c.when }}</p>
+        <ul>
+          {%- for n in c.notes %}
+          <li>{{ n }}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

@@ -5,6 +5,9 @@ date:   2025-04-17 18:19:56 +0530
 categories: Generative-Modeling
 timetoread: 14
 image: assets/vae.png
+topic: generative
+medium: https://aiadvances.org/the-biggest-enemy-of-generative-modeling-1f184becdbbd
+description: "The normalising constant, and how VAEs, GANs, score matching and diffusion each learned to avoid it."
 ---
 “Ever heard your grandma talk about generative models?” — WHAT A STUPID QUESTION, RIGHT? Well, as it turns out, **it is not a stupid question**. The idea of generative models can be dated as far back as 1763 when **Thomas Bayes gave the world the “Bayesian Inference”**. However, this explanation only works for those of you who look at generative modeling as a task in Bayesian statistics. 
 
