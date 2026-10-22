@@ -51,18 +51,28 @@
     - Built digital avatar plug-ins on Stable Diffusion and custom latent-space models.
 - org: Swiggy
   role: AI engineer
-  when: Jun 2025 – 2026
+  when: Jun 2025 – Jan 2026
   start: 2025.45
   kind: work
   notes:
     - Cut latency and raised response quality of agentic LLM workflows in production.
     - Built an evaluation framework for customer-facing LLMs using RLHF and RAG metrics.
     - Used DSPy to optimise prompts and composition of multi-turn agents.
-# CONFIRM: role title and start date below are not on the resume yet.
+- org: Gnani.ai
+  role: Research engineer
+  when: Feb – Sep 2026
+  start: 2026.08
+  kind: work
+  notes:
+    - Led post-training of 30B mixture-of-experts models, with multi-environment RL from verifiable rewards (RLVR) and RLHF pipelines.
+    - Ran mid-training on the same models to extend context length and strengthen core capabilities.
+    - Trained generative reward models to score policies.
+    - Fine-tuned the post-trained models on enterprise data for specific domains, and added speculative decoding to cut inference latency.
+# CONFIRM: role title below is not on the resume yet.
 - org: Conscious Engines
   role: Research engineer
-  when: 2026 – now
-  start: 2026.3
+  when: Oct 2026 – now
+  start: 2026.75
   kind: work
   notes:
     - Scalable, efficient reinforcement learning for both autoregressive and diffusion language models.
