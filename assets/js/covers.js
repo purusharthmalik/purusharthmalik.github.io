@@ -183,7 +183,7 @@
   function words(a) { return a.words.join(', '); }
 
   function idlePanel() {
-    panel.innerHTML = '<p class="covers-lede">Ten covers drawn at random from the ' + ALL.length + ' albums in my playlist. ' +
+    panel.innerHTML = '<p class="covers-lede">Ten covers drawn at random from the albums in my playlist. ' +
       'CLIP turned each one into a vector; covers sit close together when the vectors point the same way. Pick one to compare it with the rest.</p>';
   }
 
