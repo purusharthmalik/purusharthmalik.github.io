@@ -17,7 +17,7 @@
 
   // A smooth falling curve, with a small spike each time the data distribution changes (a new role)
   function loss(t) {
-    var base = 0.3 + 1.9 * Math.exp(-(t - T0) / 2.6);
+    var base = 0.28 + 2.0 * Math.exp(-(t - T0) / 0.85);
     var spikes = 0;
     starts.slice(1).forEach(function (s) { if (t >= s) spikes += 0.2 * Math.exp(-(t - s) / 0.08); });
     var noise = 0.018 * Math.sin(t * 41) + 0.011 * Math.sin(t * 97 + 1.3);
