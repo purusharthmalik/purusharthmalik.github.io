@@ -123,6 +123,23 @@ button { font: inherit; color: inherit; }
 .hero-text { padding-top: clamp(0rem, 3vw, 2.5rem); }
 .hero-line { font-size: clamp(2.1rem, 3.7vw, 3.2rem); font-weight: 750; line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance; }
 .hero-bio { font-family: var(--read); font-size: 1.22rem; line-height: 1.5; color: var(--ink-2); margin: 1.6rem 0 1.5rem; max-width: 34em; }
+
+/* Headline tokens, coloured by a real model's attention */
+.hero-line[data-attn] { border-radius: 6px; }
+.hero-line[data-attn]:focus-visible { outline-offset: 8px; }
+.tok-word { white-space: nowrap; }
+.tok {
+  border-radius: .12em; padding: 0 .04em; margin: 0 -.02em; cursor: default;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  transition: background-color .25s ease, color .25s ease, opacity .25s ease;
+}
+.tok.is-query { box-shadow: inset 0 -.08em 0 var(--ink); }
+.tok.is-masked { opacity: .3; }
+.attn-ctrl { display: grid; grid-template-columns: auto 1fr; gap: .35rem 1rem; align-items: center; margin-top: 1.1rem; font-size: .88rem; color: var(--ink-2); max-width: 34em; }
+.attn-layer { display: inline-flex; align-items: center; gap: .55rem; font-weight: 500; color: var(--ink); white-space: nowrap; }
+.attn-layer input { width: 8.5rem; accent-color: var(--teal); }
+.attn-readout { font-variant-numeric: tabular-nums; }
+.attn-help { grid-column: 1 / -1; color: var(--ink-3); font-size: .82rem; line-height: 1.45; }
 .hero-bio a { color: var(--ink); }
 
 .covers { margin: 0; background: var(--bg-2); border-radius: 18px; padding: 1rem 1rem 1.15rem; }

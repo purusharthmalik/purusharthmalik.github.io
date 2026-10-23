@@ -2,6 +2,7 @@
 layout: default
 body_class: home
 scripts:
+  - /assets/js/headline-attention.js
   - /assets/js/covers.js
   - /assets/js/post-map.js
   - /assets/js/training-run.js
@@ -10,7 +11,13 @@ scripts:
 
 <section class="hero" aria-labelledby="hero-line">
   <div class="hero-text">
-    <h1 id="hero-line" class="hero-line">Currently tinkering with efficient RL and diffusion language models.</h1>
+    <h1 id="hero-line" class="hero-line" data-attn>Currently tinkering with efficient RL and diffusion language models.</h1>
+    <div class="attn-ctrl">
+      <label class="attn-layer">Layer <input type="range" min="1" max="32" value="17" data-attn-layer></label>
+      <p class="attn-readout" data-attn-readout aria-live="polite"></p>
+      <p class="attn-help" id="attn-help">Real attention from {{ site.data.headline_attention.model }}, averaged over its heads. Point at a word, or focus the headline and use the arrow keys.</p>
+    </div>
+    <script type="application/json" id="attn-data">{{ site.data.headline_attention | jsonify }}</script>
     <p class="hero-bio">
       Research engineer at <a href="https://consciousengines.com">Conscious Engines</a> in Bengaluru, where I work on
       reinforcement learning for both autoregressive and diffusion language models. Before this I led post-training of 30B models at
