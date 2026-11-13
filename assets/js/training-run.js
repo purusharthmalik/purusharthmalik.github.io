@@ -26,15 +26,18 @@
     return 1;
   }
 
-  // Loss over the warped axis: a steady exponential descent, plus a sharp drop just after
-  // each checkpoint (a new job or degree), like a schedule restart that lands lower each time.
-  var DROP = 0.24, WIDTH = 0.004;
+  // Loss over the warped axis: an exponential decay that slows down over time, plus a sharp drop
+  // just after each checkpoint (a new job or degree). Drops shrink with the loss, like real training,
+  // but keep a floor so the late ones still show.
+  var RATE = 4, WIDTH = 0.004;
   function sig(x) { return 1 / (1 + Math.exp(-x)); }
   function loss(u) {
-    var steps = 0;
-    for (var i = 0; i < n; i++) steps += sig((u - (i + 0.5) / n - 0.012) / WIDTH);
-    var noise = 0.014 * Math.sin(u * 211) + 0.009 * Math.sin(u * 517 + 1.3);
-    return 0.22 + 0.9 * Math.exp(-1.5 * u) + DROP * (n - steps) + noise;
+    var v = 0.25 + 1.6 * Math.exp(-RATE * u);
+    for (var i = 0; i < n; i++) {
+      var uk = (i + 0.5) / n;
+      v += (0.075 + 0.35 * Math.exp(-RATE * uk)) * (1 - sig((u - uk - 0.012) / WIDTH));
+    }
+    return v + 0.012 * Math.sin(u * 211) + 0.008 * Math.sin(u * 517 + 1.3);
   }
   var LMAX = loss(0) + 0.05, LMIN = 0.15;
   function X(u) { return PAD.l + u * (W - PAD.l - PAD.r); }
