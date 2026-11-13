@@ -1,0 +1,37 @@
+# Papers in the Research section, newest first. Author names are as printed on arXiv.
+# `venue_url` (optional) links the venue name. `deltas` (optional) draws a before/after chart: score change after RL, in points.
+- id: "2611.16228"
+  title: Indic-Task Gains and Regressions after Reinforcement Learning
+  date: 2026-11-12
+  venue: NeurIPS 2026 GlobalSouthAI Workshop
+  venue_url: https://sites.google.com/view/globalsouthai-neurips26/home
+  authors: [S. S. Raj, D. Maan, A. Benki, P. Chatterjee, P. Prasanjith, P. Malik]
+  summary: >-
+    We ran GRPO across four reward environments on a supervised 30B-A3B mixture-of-experts model covering
+    English and eight Indian languages, then compared it before and after RL on 34 benchmarks. Maths jumped,
+    but answers to Indic reading questions drifted into English, from 8.7% to 91.7% of responses.
+  deltas_label: Score change after RL, in points
+  deltas:
+    - { name: MATH, value: 36.07 }
+    - { name: XQuAD English F1, value: 11.71 }
+    - { name: IndicQA, value: -8.64 }
+    - { name: XQuAD Indic F1, value: -19.32 }
+- id: "2611.15717"
+  title: "Outside the Purview of the Reward: Capability Drift in Multilingual Post-Training"
+  date: 2026-11-11
+  venue: NeurIPS 2026 Workshop on Foundations of LLM Post-Training in Changing Environments
+  venue_url: https://www.fllmpt-work.shop/
+  authors: [S. S. Raj, P. Malik, P. Prasanjith, D. Maan, P. Chatterjee, A. Benki]
+  summary: >-
+    Post-training can improve what the reward measures while eroding what it never checks. Comparing two GRPO
+    branches from one checkpoint, we find a language-aware reward recovers the lost Indic scores, reward-free
+    distillation restores most of a later drop, and most of the measured MATH gain tracks the model simply boxing its answers more often.
+- id: "2610.15371"
+  title: A Sovereign, Indic-First, Reasoning Model
+  date: 2026-10-11
+  venue: Technical report
+  authors: [S. S. Raj, P. Pasunuti, P. Chatterjee, D. Maan, P. Malik, N. Sarkar, A. Benki]
+  summary: >-
+    The technical report for Gnani-Evon-v3.3, a 30B hybrid Mamba-Transformer mixture-of-experts model for reasoning
+    and tool use in English and eight Indian languages, built from NVIDIA's Nemotron-3-Nano with an expanded
+    vocabulary, long-context continual pretraining and multi-environment RL.

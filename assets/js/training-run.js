@@ -12,19 +12,33 @@
   var now = new Date();
   var NOW = now.getFullYear() + now.getMonth() / 12;
   var starts = tabs.map(function (t) { return +t.dataset.start; });
-  // The run spans the whole axis: from the start of the first year to today
-  var T0 = Math.floor(starts[0]), T1 = NOW;
+  var n = starts.length;
+  var T0 = Math.floor(starts[0]), T1 = Math.max(NOW, starts[n - 1] + 0.05);
 
-  // A smooth falling curve, with a small spike each time the data distribution changes (a new role)
-  function loss(t) {
-    var base = 0.28 + 2.0 * Math.exp(-(t - T0) / 0.85);
-    var spikes = 0;
-    starts.slice(1).forEach(function (s) { if (t >= s) spikes += 0.2 * Math.exp(-(t - s) / 0.08); });
-    var noise = 0.018 * Math.sin(t * 41) + 0.011 * Math.sin(t * 97 + 1.3);
-    return base + spikes + noise;
+  // Checkpoints sit at even spacing along the axis. Time is stretched piecewise-linearly between them,
+  // so crowded years (2024-25) open up and quiet ones (2020-22) compress. Year ticks follow the same warp.
+  var KT = [T0].concat(starts, [T1]);
+  var KU = [0].concat(starts.map(function (_, i) { return (i + 0.5) / n; }), [1]);
+  function warp(t) {
+    for (var k = 1; k < KT.length; k++) {
+      if (t <= KT[k]) return KU[k - 1] + (t - KT[k - 1]) / (KT[k] - KT[k - 1]) * (KU[k] - KU[k - 1]);
+    }
+    return 1;
   }
-  function X(t) { return PAD.l + (t - T0) / (T1 - T0) * (W - PAD.l - PAD.r); }
-  function Y(v) { return PAD.t + (1 - (v - 0.15) / 2.25) * (H - PAD.t - PAD.b); }
+
+  // Loss over the warped axis: a steady exponential descent, plus a sharp drop just after
+  // each checkpoint (a new job or degree), like a schedule restart that lands lower each time.
+  var DROP = 0.24, WIDTH = 0.004;
+  function sig(x) { return 1 / (1 + Math.exp(-x)); }
+  function loss(u) {
+    var steps = 0;
+    for (var i = 0; i < n; i++) steps += sig((u - (i + 0.5) / n - 0.012) / WIDTH);
+    var noise = 0.014 * Math.sin(u * 211) + 0.009 * Math.sin(u * 517 + 1.3);
+    return 0.22 + 0.9 * Math.exp(-1.5 * u) + DROP * (n - steps) + noise;
+  }
+  var LMAX = loss(0) + 0.05, LMIN = 0.15;
+  function X(u) { return PAD.l + u * (W - PAD.l - PAD.r); }
+  function Y(v) { return PAD.t + (1 - (v - LMIN) / (LMAX - LMIN)) * (H - PAD.t - PAD.b); }
 
   function el(name, attrs, parent) {
     var n = document.createElementNS(NS, name);
@@ -43,21 +57,30 @@
   // Axes: years along the bottom, "loss" up the side
   var axis = el('g', { class: 'run-axis' }, svg);
   el('line', { x1: PAD.l, y1: H - PAD.b, x2: W - PAD.r, y2: H - PAD.b }, axis);
-  var ticks = [];
-  for (var y = T0; y <= T1 - 0.35; y++) ticks.push({ t: y, label: y, cls: (y - T0) % 2 ? 'run-year-odd' : '' });
-  ticks.push({ t: T1, label: 'now', cls: 'run-year-now' });
+  // Skip year labels that would collide. Phones draw axis text larger, so labels closer than
+  // 130 units to the last phone-visible one get a class that CSS hides on small screens.
+  var ticks = [], lastX = -1e9, lastMajor = -1e9, nowX = X(1);
+  for (var y = T0; y < T1; y++) {
+    var x = X(warp(y));
+    if (x - lastX < 46 || nowX - x < 46) continue;
+    var minor = x - lastMajor < 130 || nowX - x < 130;
+    ticks.push({ x: x, label: y, cls: minor ? 'run-year-minor' : '' });
+    lastX = x;
+    if (!minor) lastMajor = x;
+  }
+  ticks.push({ x: nowX, label: 'now', cls: 'run-year-now' });
   ticks.forEach(function (k) {
-    el('line', { x1: X(k.t), y1: H - PAD.b, x2: X(k.t), y2: H - PAD.b + 6 }, axis);
-    var tx = el('text', { x: X(k.t), y: H - PAD.b + 24, 'text-anchor': k.label === 'now' ? 'end' : 'middle', class: k.cls }, axis);
+    el('line', { x1: k.x, y1: H - PAD.b, x2: k.x, y2: H - PAD.b + 6 }, axis);
+    var tx = el('text', { x: k.x, y: H - PAD.b + 24, 'text-anchor': k.label === 'now' ? 'end' : 'middle', class: k.cls }, axis);
     tx.textContent = k.label;
   });
   var yl = el('text', { x: 14, y: PAD.t + 8, class: 'run-ylabel' }, axis);
   yl.textContent = 'loss';
 
-  // The curve itself, from the first checkpoint to today
+  // The curve itself, from the start of the first year to today
   var pts = [];
-  for (var t = T0; t < T1; t += 0.01) pts.push([X(t), Y(loss(t))]);
-  pts.push([X(T1), Y(loss(T1))]);
+  for (var u = 0; u < 1; u += 0.001) pts.push([X(u), Y(loss(u))]);
+  pts.push([X(1), Y(loss(1))]);
   var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
   el('path', { d: d + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + (H - PAD.b) + ' L' + pts[0][0].toFixed(1) + ' ' + (H - PAD.b) + ' Z', class: 'run-area' }, svg);
   el('path', { d: d, class: 'run-curve', stroke: 'url(#run-grad)' }, svg);
@@ -66,9 +89,10 @@
   var guide = el('line', { class: 'run-guide' }, svg);
 
   var marks = starts.map(function (s, i) {
+    var u = (i + 0.5) / n;
     var g = el('g', { class: 'run-mark' + (tabs[i].dataset.kind === 'study' ? ' is-study' : '') }, svg);
-    el('circle', { cx: X(s), cy: Y(loss(s)), r: 14, class: 'run-hit' }, g);
-    el('circle', { cx: X(s), cy: Y(loss(s)), r: 5.5, class: 'run-dot' }, g);
+    el('circle', { cx: X(u), cy: Y(loss(u)), r: 14, class: 'run-hit' }, g);
+    el('circle', { cx: X(u), cy: Y(loss(u)), r: 5.5, class: 'run-dot' }, g);
     g.addEventListener('click', function () { select(i, false); });
     return g;
   });
@@ -82,9 +106,9 @@
     });
     logs.forEach(function (l) { l.hidden = l.dataset.for !== tabs[i].id; });
     run.querySelector('[role="tabpanel"]').setAttribute('aria-labelledby', tabs[i].id);
-    var s = starts[i];
-    guide.setAttribute('x1', X(s)); guide.setAttribute('x2', X(s));
-    guide.setAttribute('y1', Y(loss(s)) + 8); guide.setAttribute('y2', H - PAD.b);
+    var u = (i + 0.5) / n;
+    guide.setAttribute('x1', X(u)); guide.setAttribute('x2', X(u));
+    guide.setAttribute('y1', Y(loss(u)) + 8); guide.setAttribute('y2', H - PAD.b);
     if (focus) tabs[i].focus();
   }
 

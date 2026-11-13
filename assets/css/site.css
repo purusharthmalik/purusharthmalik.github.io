@@ -9,34 +9,6 @@
   --green: #5ec962;
   --yellow: #fde725;
 
-  --bg: #f5f2fa;
-  --bg-2: #ebe4f4;
-  --bg-code: #efe9f7;
-  --ink: #1e0b33;
-  --ink-2: #4f4366;
-  --ink-3: #7a6e92;
-  --rule: rgba(30, 11, 51, 0.14);
-  --link-line: var(--teal);
-  --link-hover: var(--blue);
-  --focus: var(--blue);
-  --accent: var(--ink);
-  --on-hot: #1a0b2e;
-
-  --t-interpretability: #c4a000;
-  --t-reasoning: #2e9e4a;
-  --t-models: #1b7f79;
-  --t-generative: #9b3fb0;
-  --t-systems: #3b528b;
-
-  --ui: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --read: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --wrap: 1160px;
-  --gutter: clamp(16px, 4vw, 48px);
-  color-scheme: light;
-}
-
-/* Dark: the violet end of viridis. Only when the reader picks it. */
-:root[data-theme="dark"] {
   --bg: #1a0b2e;
   --bg-2: #24133d;
   --bg-code: #12061f;
@@ -48,12 +20,41 @@
   --link-hover: var(--yellow);
   --focus: var(--yellow);
   --accent: var(--yellow);
+  --on-hot: #1a0b2e;
+
   --t-interpretability: #fde725;
   --t-reasoning: #5ec962;
   --t-models: #2fb8aa;
   --t-generative: #d17ce0;
   --t-systems: #7c9bea;
+
+  --ui: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --read: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --wrap: 1160px;
+  --gutter: clamp(16px, 4vw, 48px);
   color-scheme: dark;
+}
+
+
+/* Light: a pale lavender page. Only when the reader picks it. */
+:root[data-theme="light"] {
+  --bg: #f5f2fa;
+  --bg-2: #ebe4f4;
+  --bg-code: #efe9f7;
+  --ink: #1e0b33;
+  --ink-2: #4f4366;
+  --ink-3: #7a6e92;
+  --rule: rgba(30, 11, 51, 0.14);
+  --link-line: var(--teal);
+  --link-hover: var(--blue);
+  --focus: var(--blue);
+  --accent: var(--ink);
+  --t-interpretability: #c4a000;
+  --t-reasoning: #2e9e4a;
+  --t-models: #1b7f79;
+  --t-generative: #9b3fb0;
+  --t-systems: #3b528b;
+  color-scheme: light;
 }
 
 /* ------------------------------------------------------------------ base */
@@ -109,7 +110,7 @@ button { font: inherit; color: inherit; }
   background: transparent; border: 1px solid var(--rule); color: var(--ink-2); cursor: pointer;
 }
 .theme-toggle:hover { color: var(--ink); border-color: var(--ink-3); }
-:root[data-theme="dark"] .theme-toggle svg { transform: rotate(180deg); }
+:root[data-theme="light"] .theme-toggle svg { transform: rotate(180deg); }
 
 .colophon { border-top: 1px solid var(--rule); margin-top: 6rem; }
 .colophon-inner { max-width: var(--wrap); margin: 0 auto; padding: 3.5rem var(--gutter) 4rem; display: grid; gap: 1.75rem; }
@@ -256,21 +257,28 @@ button { font: inherit; color: inherit; }
 .post-row-dek { color: var(--ink-2); font-family: var(--read); font-size: 1.05rem; line-height: 1.45; }
 
 /* ------------------------------------------------------------------ research */
-.paper { max-width: 48rem; }
-.paper-venue { color: var(--ink-3); font-size: .9rem; margin-bottom: .6rem; }
-.paper-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: .6rem; }
+.papers { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 50rem; }
+.paper { padding: 2rem 0; border-top: 1px solid var(--rule); }
+.paper:first-child { border-top: 0; padding-top: 0; }
+.paper-venue { font-size: .92rem; font-weight: 600; color: var(--ink); margin-bottom: .2rem; }
+.paper-venue a { text-decoration-thickness: 1px; }
+.paper-meta { color: var(--ink-3); font-size: .88rem; margin-bottom: .55rem; font-variant-numeric: tabular-nums; }
+.paper-title { font-size: clamp(1.35rem, 2.6vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: .5rem; text-wrap: balance; }
 .paper-title a { text-decoration: none; }
 .paper-title a:hover { text-decoration: underline; text-decoration-color: var(--link-line); }
-.paper-authors { color: var(--ink-2); margin-bottom: 1.25rem; }
+.paper-authors { color: var(--ink-2); margin-bottom: 1rem; }
 .paper-authors strong { color: var(--ink); font-weight: 650; }
-.paper-summary { font-family: var(--read); font-size: 1.2rem; line-height: 1.55; margin-bottom: 1.5rem; }
-.paper-shift { display: grid; gap: .5rem; margin-bottom: 1.5rem; max-width: 34rem; font-size: .9rem; }
-.shift-row { display: grid; grid-template-columns: 5.5rem 1fr 3.5rem; gap: .9rem; align-items: center; color: var(--ink-2); }
-.shift-bar { height: .7rem; background: var(--bg-2); border-radius: 99px; overflow: hidden; }
-.shift-bar span { display: block; height: 100%; width: calc(var(--v) * 100%); background: var(--teal); border-radius: 99px; }
-.shift-row + .shift-row .shift-bar span { background: var(--t-interpretability); }
-.shift-num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
-.paper-links { display: flex; gap: 1.25rem; font-weight: 500; }
+.paper-summary { font-family: var(--read); font-size: 1.15rem; line-height: 1.55; margin-bottom: 1.25rem; max-width: 42em; }
+
+/* Diverging bars: score change after RL, centred on zero */
+.deltas { margin: 0 0 1.4rem; max-width: 36rem; display: grid; gap: .45rem; font-size: .9rem; }
+.deltas figcaption { color: var(--ink-3); margin-bottom: .2rem; }
+.delta-row { display: grid; grid-template-columns: 9.5rem 1fr 3.6rem; gap: .9rem; align-items: center; color: var(--ink-2); }
+.delta-track { position: relative; height: .75rem; background: linear-gradient(var(--ink-3), var(--ink-3)) 50% 0 / 1px 100% no-repeat, var(--bg-2); border-radius: 3px; }
+.delta-bar { position: absolute; top: 0; bottom: 0; left: 50%; width: calc(var(--v) * 50%); background: var(--t-reasoning); border-radius: 0 3px 3px 0; }
+.is-down .delta-bar { left: auto; right: 50%; background: var(--t-generative); border-radius: 3px 0 0 3px; }
+.delta-num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+.paper-links { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-weight: 500; }
 
 /* ------------------------------------------------------------------ work: training run */
 .run-svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -404,7 +412,8 @@ button { font: inherit; color: inherit; }
   .pager-next { grid-column: 1; text-align: left; }
   .run-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .run-axis text { font-size: 30px; }
-  .run-axis .run-year-odd { display: none; }
+  .run-axis .run-year-minor { display: none; }
+  .delta-row { grid-template-columns: 7.2rem 1fr 3.4rem; gap: .6rem; }
   .archive-year { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
 }
 

@@ -1,7 +1,7 @@
 (function () {
   var root = document.documentElement;
   function current() {
-    return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
   document.querySelectorAll('.theme-toggle').forEach(function (btn) {
     btn.addEventListener('click', function () {

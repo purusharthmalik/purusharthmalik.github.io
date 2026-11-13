@@ -90,31 +90,45 @@ scripts:
 <section id="research" class="band" aria-labelledby="research-h">
   <div class="band-head">
     <h2 id="research-h">Research</h2>
-    <p>Reinforcement learning for language models: how to make it cheaper, and the odd ways it changes a model. Full list on <a href="{{ site.links.scholar }}">Google Scholar</a>.</p>
+    <p>Reinforcement learning for language models: how to make it cheaper, and the odd ways it changes a model. Also on <a href="{{ site.links.scholar }}">Google Scholar</a> and <a href="{{ site.links.alphaxiv }}">alphaXiv</a>.</p>
   </div>
 
-  <article class="paper">
-    <p class="paper-venue">arXiv 2610.15371 <span class="sep" aria-hidden="true">/</span> October 2026 <span class="sep" aria-hidden="true">/</span> technical report</p>
-    <h3 class="paper-title"><a href="https://arxiv.org/abs/2610.15371">A Sovereign, Indic-First, Reasoning Model</a></h3>
-    <p class="paper-authors">S. S. Raj, P. Pasunuti, P. Chatterjee, D. Maan, <strong>P. Malik</strong>, N. Sarkar, A. Benki</p>
-    <p class="paper-summary">
-      Gnani-Evon-v3.3 is a 30B-parameter hybrid Mamba-Transformer mixture-of-experts model for reasoning and tool use
-      in English and eight Indian languages, built from NVIDIA's Nemotron-3-Nano. The central finding is a side effect of
-      reinforcement learning: rewards on verifiable tasks improved maths and science, but because they never checked the
-      answer language, the share of Indic questions answered in English rose from 8.7% to 91.7%.
-    </p>
-    <div class="paper-shift" aria-label="Indic extraction questions answered in English, before and after RL">
-      <div class="shift-row"><span>Before RL</span><span class="shift-bar"><span style="--v: 0.087"></span></span><span class="shift-num">8.7%</span></div>
-      <div class="shift-row"><span>After RL</span><span class="shift-bar"><span style="--v: 0.917"></span></span><span class="shift-num">91.7%</span></div>
-    </div>
-    <p class="paper-links"><a href="https://arxiv.org/abs/2610.15371">Abstract</a> <a href="https://arxiv.org/pdf/2610.15371">PDF</a></p>
-  </article>
+  <ol class="papers">
+    {%- for p in site.data.papers %}
+    <li class="paper">
+      <p class="paper-venue">
+        {%- if p.venue_url %}<a class="paper-venue-name" href="{{ p.venue_url }}">{{ p.venue }}</a>{% else %}<span class="paper-venue-name">{{ p.venue }}</span>{% endif -%}
+      </p>
+      <p class="paper-meta">arXiv {{ p.id }} <span class="sep" aria-hidden="true">/</span> {{ p.date | date: "%-d %B %Y" }}</p>
+      <h3 class="paper-title"><a href="https://arxiv.org/abs/{{ p.id }}">{{ p.title }}</a></h3>
+      <p class="paper-authors">
+        {%- for a in p.authors -%}
+        {%- if a == "P. Malik" %}<strong>{{ a }}</strong>{% else %}{{ a }}{% endif %}{% unless forloop.last %}, {% endunless -%}
+        {%- endfor -%}
+      </p>
+      <p class="paper-summary">{{ p.summary }}</p>
+      {%- if p.deltas %}
+      <figure class="deltas" aria-label="{{ p.deltas_label }}">
+        <figcaption>{{ p.deltas_label }}</figcaption>
+        {%- for d in p.deltas %}
+        <div class="delta-row{% if d.value < 0 %} is-down{% endif %}">
+          <span class="delta-name">{{ d.name }}</span>
+          <span class="delta-track"><span class="delta-bar" style="--v: {{ d.value | abs | divided_by: 40.0 }}"></span></span>
+          <span class="delta-num">{% if d.value > 0 %}+{% else %}&minus;{% endif %}{{ d.value | abs }}</span>
+        </div>
+        {%- endfor %}
+      </figure>
+      {%- endif %}
+      <p class="paper-links"><a href="https://arxiv.org/abs/{{ p.id }}">Abstract</a> <a href="https://arxiv.org/pdf/{{ p.id }}">PDF</a> <a href="https://www.alphaxiv.org/abs/{{ p.id }}">Discuss on alphaXiv</a></p>
+    </li>
+    {%- endfor %}
+  </ol>
 </section>
 
 <section id="work" class="band" aria-labelledby="work-h">
   <div class="band-head">
     <h2 id="work-h">Work</h2>
-    <p>Seven years plotted as a training run. Each checkpoint is a place I learned something. Select one to read the log.</p>
+    <p>Seven years plotted as a training run, with a drop at every new job or degree. Checkpoints are evenly spaced, so the years stretch where things moved fast. Select one to read the log.</p>
   </div>
 
   <div class="run" data-run>
