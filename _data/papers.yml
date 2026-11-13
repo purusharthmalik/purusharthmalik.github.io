@@ -1,5 +1,9 @@
 # Papers in the Research section, newest first. Author names are as printed on arXiv.
-# `venue_url` (optional) links the venue name. `deltas` (optional) draws a before/after chart: score change after RL, in points.
+# `venue_url` (optional) links the venue name.
+# `result` is the main finding, drawn beside the summary. Two kinds:
+#   deltas:  diverging bars of score changes. `scale` is the value that fills half the track;
+#            an optional `group` on rows adds a small heading whenever it changes.
+#   compare: a small table. Cells are { text, tone } with tone up, down or flat.
 - id: "2611.16228"
   title: Indic-Task Gains and Regressions after Reinforcement Learning
   date: 2026-11-12
@@ -10,12 +14,14 @@
     We ran GRPO across four reward environments on a supervised 30B-A3B mixture-of-experts model covering
     English and eight Indian languages, then compared it before and after RL on 34 benchmarks. Maths jumped,
     but answers to Indic reading questions drifted into English, from 8.7% to 91.7% of responses.
-  deltas_label: Score change after RL, in points
-  deltas:
-    - { name: MATH, value: 36.07 }
-    - { name: XQuAD English F1, value: 11.71 }
-    - { name: IndicQA, value: -8.64 }
-    - { name: XQuAD Indic F1, value: -19.32 }
+  result:
+    title: Score change after RL, in points
+    scale: 40
+    deltas:
+      - { name: MATH, value: 36.07 }
+      - { name: XQuAD English F1, value: 11.71 }
+      - { name: IndicQA, value: -8.64 }
+      - { name: XQuAD Indic F1, value: -19.32 }
 - id: "2611.15717"
   title: "Outside the Purview of the Reward: Capability Drift in Multilingual Post-Training"
   date: 2026-11-11
@@ -26,6 +32,18 @@
     Post-training can improve what the reward measures while eroding what it never checks. Comparing two GRPO
     branches from one checkpoint, we find a language-aware reward recovers the lost Indic scores, reward-free
     distillation restores most of a later drop, and most of the measured MATH gain tracks the model simply boxing its answers more often.
+  result:
+    title: Two GRPO branches from one checkpoint
+    columns: [Released, Indic-aware]
+    rows:
+      - name: MATH
+        cells: [{ text: "+36.07", tone: up }, { text: Preserved, tone: up }]
+      - name: XQuAD Indic F1
+        cells: [{ text: "−19.32", tone: down }, { text: Recovered, tone: up }]
+      - name: Answers in the requested script
+        cells: [{ text: Lost, tone: down }, { text: Not restored, tone: down }]
+      - name: Competition maths and code
+        cells: [{ text: Reference, tone: flat }, { text: Traded off, tone: down }]
 - id: "2610.15371"
   title: A Sovereign, Indic-First, Reasoning Model
   date: 2026-10-11
@@ -35,3 +53,11 @@
     The technical report for Gnani-Evon-v3.3, a 30B hybrid Mamba-Transformer mixture-of-experts model for reasoning
     and tool use in English and eight Indian languages, built from NVIDIA's Nemotron-3-Nano with an expanded
     vocabulary, long-context continual pretraining and multi-environment RL.
+  result:
+    title: Change against the starting checkpoint, in points
+    scale: 16
+    deltas:
+      - { group: Released model, name: Indic aggregate, value: 5.2 }
+      - { group: Released model, name: English retention, value: -1.7 }
+      - { group: Indic-aware branch, name: Indic aggregate, value: 14.6 }
+      - { group: Indic-aware branch, name: English retention, value: -5.4 }

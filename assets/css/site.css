@@ -257,9 +257,10 @@ button { font: inherit; color: inherit; }
 .post-row-dek { color: var(--ink-2); font-family: var(--read); font-size: 1.05rem; line-height: 1.45; }
 
 /* ------------------------------------------------------------------ research */
-.papers { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 50rem; }
-.paper { padding: 2rem 0; border-top: 1px solid var(--rule); }
+.papers { list-style: none; margin: 0; padding: 0; display: grid; }
+.paper { padding: 2.25rem 0; border-top: 1px solid var(--rule); }
 .paper:first-child { border-top: 0; padding-top: 0; }
+.paper.has-result { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.5rem clamp(2rem, 5vw, 4rem); align-items: start; }
 .paper-venue { font-size: .92rem; font-weight: 600; color: var(--ink); margin-bottom: .2rem; }
 .paper-venue a { text-decoration-thickness: 1px; }
 .paper-meta { color: var(--ink-3); font-size: .88rem; margin-bottom: .55rem; font-variant-numeric: tabular-nums; }
@@ -268,16 +269,31 @@ button { font: inherit; color: inherit; }
 .paper-title a:hover { text-decoration: underline; text-decoration-color: var(--link-line); }
 .paper-authors { color: var(--ink-2); margin-bottom: 1rem; }
 .paper-authors strong { color: var(--ink); font-weight: 650; }
-.paper-summary { font-family: var(--read); font-size: 1.15rem; line-height: 1.55; margin-bottom: 1.25rem; max-width: 42em; }
+.paper-summary { font-family: var(--read); font-size: 1.15rem; line-height: 1.55; margin-bottom: 1.1rem; max-width: 40em; }
 
-/* Diverging bars: score change after RL, centred on zero */
-.deltas { margin: 0 0 1.4rem; max-width: 36rem; display: grid; gap: .45rem; font-size: .9rem; }
-.deltas figcaption { color: var(--ink-3); margin-bottom: .2rem; }
-.delta-row { display: grid; grid-template-columns: 9.5rem 1fr 3.6rem; gap: .9rem; align-items: center; color: var(--ink-2); }
-.delta-track { position: relative; height: .75rem; background: linear-gradient(var(--ink-3), var(--ink-3)) 50% 0 / 1px 100% no-repeat, var(--bg-2); border-radius: 3px; }
+/* The main result, beside the summary */
+.paper-result { margin: 0; background: var(--bg-2); border-radius: 14px; padding: 1.1rem 1.2rem 1.2rem; font-size: .9rem; }
+.paper-result figcaption { color: var(--ink-2); font-weight: 600; margin-bottom: .8rem; }
+
+/* Diverging bars, centred on zero */
+.deltas { display: grid; gap: .45rem; }
+.delta-group { color: var(--ink-3); font-size: .82rem; margin-top: .35rem; }
+.delta-group:first-child { margin-top: 0; }
+.delta-row { display: grid; grid-template-columns: 8.6rem 1fr 3.4rem; gap: .75rem; align-items: center; color: var(--ink-2); }
+.delta-track { position: relative; height: .75rem; background: linear-gradient(var(--ink-3), var(--ink-3)) 50% 0 / 1px 100% no-repeat, var(--bg); border-radius: 3px; }
 .delta-bar { position: absolute; top: 0; bottom: 0; left: 50%; width: calc(var(--v) * 50%); background: var(--t-reasoning); border-radius: 0 3px 3px 0; }
 .is-down .delta-bar { left: auto; right: 50%; background: var(--t-generative); border-radius: 3px 0 0 3px; }
 .delta-num { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+
+/* Compare table: tone colours mark better, worse or unchanged */
+.compare { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.compare th, .compare td { text-align: left; padding: .45rem .5rem; border-top: 1px solid var(--rule); vertical-align: top; }
+.compare thead th { border-top: 0; color: var(--ink-3); font-weight: 500; padding-top: 0; }
+.compare tbody th { color: var(--ink-2); font-weight: 500; padding-left: 0; width: 42%; }
+.compare td { font-weight: 600; font-variant-numeric: tabular-nums; }
+.compare td.is-up { color: var(--t-reasoning); }
+.compare td.is-down { color: var(--t-generative); }
+.compare td.is-flat { color: var(--ink-3); font-weight: 500; }
 .paper-links { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-weight: 500; }
 
 /* ------------------------------------------------------------------ work: training run */
@@ -400,6 +416,7 @@ button { font: inherit; color: inherit; }
   .writing { grid-template-columns: minmax(0, 1fr); }
   .post-map { position: static; }
   .band-head { grid-template-columns: minmax(0, 1fr); }
+  .paper.has-result { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 560px) {
   .masthead-nav { gap: .25rem 1rem; font-size: .95rem; }
@@ -414,6 +431,7 @@ button { font: inherit; color: inherit; }
   .run-axis text { font-size: 30px; }
   .run-axis .run-year-minor { display: none; }
   .delta-row { grid-template-columns: 7.2rem 1fr 3.4rem; gap: .6rem; }
+  .paper-result { padding: .9rem .9rem 1rem; }
   .archive-year { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
 }
 
