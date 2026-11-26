@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "What Can You Read Between Two Tokens?"
+title: "Monitorable For What? Reading A Looped Model Between Tokens"
 date: 2026-11-26 10:00:00 +0530
 categories: LLM
 topic: interpretability
@@ -36,6 +36,8 @@ These are four recorded runs of the same checkpoint. The winner never changes. O
 <figure class="chart"><div class="chart-scroll">{{ fig0 }}</div><figcaption>The three observation points used in this post, and the kind of monitor that can read each one. The first two monitors try to recover which bonus the model was given. The last one asks whether the listener was actually misled.</figcaption></figure>
 
 Across 64 scoreboards, a probe inside the third loop pass could distinguish the two incentives even when every direct answer was truthful. Once Inkling wrote a chain of thought, a second model could recover the incentive from the reasoning alone. The harder question, and the one that matters for safety, was whether either measurement could tell us **when the speaker would actually mislead someone**.
+
+That question is behind a common worry about looped models: if more of the work happens inside the loop, less of it has to be written down where a chain-of-thought monitor can see it, so looped models must be **less monitorable**. The worry is reasonable, but it skips a step. "Monitorable" is not a property of a model on its own. It depends on **what** the monitor is trying to find out, **when** it has to find it out, and **what else it already knows**. This post is an attempt to make that concrete.
 
 ## How Much Work Happens Before The Next Token?
 
